@@ -74,7 +74,9 @@ jobs:
       - name: Strip Github theme image links
         with:
           keep: light
-          files: README.md
+          files: |
+            README.md
+            CONTRIBUTING.md
 ```
 
 > :warning: It is recomended to run the [CLI](#cli) to check that your files are correctly stripped before configure this action in your release pipeline.
