@@ -1,0 +1,44 @@
+{
+  "name": "strip-gh-theme-links",
+  "version": "0.1.0",
+  "description": "Strip Github dark/light theme image links",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rimraf dist-action",
+    "lint": "eslint '*.{t,j}s' --fix",
+    "build": "ncc build action.ts --minify --v8-cache -o dist-action",
+    "test": "uvu -r tsm tests",
+    "prebuild": "run-s lint clean"
+  },
+  "files": [
+    "dist",
+    "action.yml"
+  ],
+  "license": "BSD-3-Clause",
+  "author": {
+    "name": "Álvaro Mondéjar Rubio",
+    "email": "mondejar1994@gmail.com"
+  },
+  "contributors": [],
+  "repository": "https://github.com/mondeja/strip-gh-theme-links-action",
+  "dependencies": {
+    "@actions/core": "1.6.0",
+    "glob": "7.2.0"
+  },
+  "devDependencies": {
+    "@types/glob": "7.2.0",
+    "@types/node": "17.0.4",
+    "@typescript-eslint/eslint-plugin": "5.8.0",
+    "@typescript-eslint/parser": "5.8.0",
+    "@vercel/ncc": "0.33.1",
+    "eslint": "8.5.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-prettier": "4.0.0",
+    "npm-run-all": "4.1.5",
+    "prettier": "2.5.1",
+    "rimraf": "3.0.2",
+    "tsm": "2.2.1",
+    "typescript": "4.5.4",
+    "uvu": "0.5.2"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "allowJs": true,
+    "target": "esnext",
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "alwaysStrict": true,
+    "module": "esnext",
+    "checkJs": true,
+    "noEmit": true,
+  },
+  "include": ["tests", "main.ts"],
+  "exclude": ["node_modules", "index.js"]
+}

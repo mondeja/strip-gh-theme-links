@@ -1,0 +1,16 @@
+name: Strip Github Theme Image Links
+description: Strip Github dark/light theme image links from files
+author: Álvaro Mondéjar Rubio <mondejar1994@gmail.com>
+inputs:
+  files:
+    description: Glob of files from which to strip image links.
+    required: true
+  keep:
+    description: Type of links to keep in the files. Either 'light' or 'dark'.
+    required: true
+runs:
+  using: node16
+  main: dist-action/index.js
+branding:
+  icon: type
+  color: black
