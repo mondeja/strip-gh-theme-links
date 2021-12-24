@@ -1,21 +1,25 @@
-import { test } from 'uvu'
-import * as assert from 'uvu/assert'
-import { getKeep } from '../../action'
+import { test } from "uvu";
+import * as assert from "uvu/assert";
+import { getKeep } from "../../action/inputs";
 
-test('Get keep as valid', () => {
-  process.env["INPUT_KEEP"] = 'light'
-  assert.equal(getKeep(), 'light')
+test("Get keep as default", () => {
+  assert.equal(getKeep(), "light");
+});
 
-  process.env["INPUT_KEEP"] = 'dark'
-  assert.equal(getKeep(), 'dark')
+test("Get keep as valid", () => {
+  process.env["INPUT_KEEP"] = "light";
+  assert.equal(getKeep(), "light");
 
-  delete process.env["INPUT_KEEP"]
-})
+  process.env["INPUT_KEEP"] = "dark";
+  assert.equal(getKeep(), "dark");
 
-test('Get keep as invalid', () => {
-  process.env["INPUT_KEEP"] = 'awsd'
-  assert.throws(getKeep, "'keep' input must be either 'light' or 'dark'")
-  delete process.env["INPUT_KEEP"]
-})
+  delete process.env["INPUT_KEEP"];
+});
 
-test.run()
+test("Get keep as invalid", () => {
+  process.env["INPUT_KEEP"] = "awsd";
+  assert.throws(getKeep, "'keep' input must be either 'light' or 'dark'");
+  delete process.env["INPUT_KEEP"];
+});
+
+test.run();

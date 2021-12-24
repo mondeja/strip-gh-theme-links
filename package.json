@@ -7,8 +7,8 @@
   "scripts": {
     "clean": "rimraf dist-action",
     "lint:fix": "npm run lint -- --fix",
-    "lint": "eslint '*.{t,j}s'",
-    "build": "ncc build action.ts --minify --v8-cache -o dist-action",
+    "lint": "eslint '*.{t,j}s' && eslint 'tests/**/*.ts'",
+    "build": "ncc build action/index.ts --minify --v8-cache -o dist-action",
     "test": "uvu -r tsm tests",
     "prebuild": "run-s lint:fix clean"
   },
