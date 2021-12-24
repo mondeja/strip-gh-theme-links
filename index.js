@@ -47,13 +47,10 @@ const stripGhThemeLinks = function (content, keep) {
     .replace(markdownReferenceLinkRe, replacer)
     .replace(htmlTagRe, replacer);
 
-  // Recursively call until all the `gh-${theme}-mode-only` substrings
+  // Recursively call until all the `gh-${theme}-mode-only` links
   // are stripped. This is easier to maintain than writing more complex
   // regexes to fulfill the matching multiple times in a line.
-  if (
-    transformed.includes(expectedSubstringToKeep) ||
-    transformed.includes(expectedSubstringToStrip)
-  ) {
+  if (transformed.length !== content.length) {
     return stripGhThemeLinks(transformed, keep);
   }
   return transformed;

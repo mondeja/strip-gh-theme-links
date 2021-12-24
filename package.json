@@ -3,12 +3,14 @@
   "version": "0.1.0",
   "description": "Strip Github dark/light theme image links",
   "main": "index.js",
+  "bin": "cli.js",
   "scripts": {
     "clean": "rimraf dist-action",
-    "lint": "eslint '*.{t,j}s' --fix",
+    "lint:fix": "npm run lint -- --fix",
+    "lint": "eslint '*.{t,j}s'",
     "build": "ncc build action.ts --minify --v8-cache -o dist-action",
     "test": "uvu -r tsm tests",
-    "prebuild": "run-s lint clean"
+    "prebuild": "run-s lint:fix clean"
   },
   "files": [
     "dist",
