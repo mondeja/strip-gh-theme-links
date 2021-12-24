@@ -27,8 +27,7 @@ const { stripGhThemeLinks } = require("strip-gh-theme-links");
 
 const content = `
 <p align="center>
-  <img src="https://raw.githubusercontent.com/user/repo/assets/readme/logo-black.svg#gh-light-mode-only" alt="logo">
-  <img src="https://raw.githubusercontent.com/user/repo/assets/readme/logo-white.svg#gh-dark-mode-only" alt="logo">
+  <img src="https://raw.githubusercontent.com/user/repo/assets/readme/logo-black.svg#gh-light-mode-only" alt="logo"> <img src="https://raw.githubusercontent.com/user/repo/assets/readme/logo-white.svg#gh-dark-mode-only" alt="logo">
 </p>
 `
 
@@ -36,10 +35,27 @@ console.log(stripGhThemeLinks(content, 'light'))
 /* OUTPUT:
 <p align="center>
   <img src="https://raw.githubusercontent.com/user/repo/assets/readme/logo-black.svg" alt="logo">
-  
 </p>
 */
 ```
 
+### As Github Action
+
+```yaml
+name: Release
+on:
+  workflow_dispatch:
+
+jobs:
+  release-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Strip Github theme image links
+        with:
+          keep: light
+          files: README.md
+```
 
 [modes-docs]: https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#specifying-the-theme-an-image-is-shown-to

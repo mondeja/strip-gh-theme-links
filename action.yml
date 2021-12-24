@@ -6,8 +6,8 @@ inputs:
     description: Glob of files from which to strip image links.
     required: true
   keep:
-    description: Type of links to keep in the files. Either 'light' or 'dark'.
-    required: true
+    description: Type of links to keep in the files. Either 'light' or 'dark'. As default 'light'.
+    required: false
 runs:
   using: node16
   main: dist-action/index.js

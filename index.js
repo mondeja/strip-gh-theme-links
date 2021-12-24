@@ -18,7 +18,7 @@ const markdownReferenceLinkRe = new RegExp(
 );
 
 const htmlTagRe = new RegExp(
-  /<[a-zA-Z].+=["']/.source + urlRe.source + /["'].*\/?>/.source,
+  /<[a-zA-Z][^>]+=["']/.source + urlRe.source + /["'].*\/?>/.source,
   "g"
 );
 
@@ -27,7 +27,7 @@ const htmlTagRe = new RegExp(
   - Strip empty lines.
 */
 
-module.exports.stripGhThemeLinks = function (content, keep) {
+const stripGhThemeLinks = function (content, keep) {
   const expectedSubstringToKeep = `#gh-${keep}-mode-only`,
     expectedSubstringToStrip = `#gh-${
       keep === "dark" ? "light" : "dark"
@@ -42,8 +42,23 @@ module.exports.stripGhThemeLinks = function (content, keep) {
       : match.replace(expectedSubstringToKeep, "");
   }
 
-  return content
+  const transformed = content
     .replace(markdownInlineLinkRe, replacer)
     .replace(markdownReferenceLinkRe, replacer)
     .replace(htmlTagRe, replacer);
+
+  // Recursively call until all the `gh-${theme}-mode-only` substrings
+  // are stripped. This is easier to maintain than writing more complex
+  // regexes to fulfill the matching multiple times in a line.
+  if (
+    transformed.includes(expectedSubstringToKeep) ||
+    transformed.includes(expectedSubstringToStrip)
+  ) {
+    return stripGhThemeLinks(transformed, keep);
+  }
+  return transformed;
+};
+
+module.exports = {
+  stripGhThemeLinks,
 };
