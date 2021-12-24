@@ -7,10 +7,13 @@ import { stripGhThemeLinks } from ".";
 type keepType = "light" | "dark";
 
 export function getFiles(): Array<string> {
-  return core
-    .getInput("files")
+  const filesInput = core.getInput("files")
+  const files = filesInput
     .split("\n")
     .map((filepath) => {
+      if (filepath.length === 0) {
+        return []
+      }
       const globbed: Array<string> = glob.sync(filepath);
       if (globbed.length === 0) {
         // is not a glob, return file if exists
@@ -25,6 +28,12 @@ export function getFiles(): Array<string> {
       return globbed;
     })
     .flat();
+  if (files.length === 0) {
+    core.warning(
+      `Any files found matching the input '${filesInput}'!`
+    );
+  }
+  return files;
 }
 
 export function getKeep(): keepType {

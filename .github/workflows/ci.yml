@@ -41,11 +41,23 @@ jobs:
     - name: Test
       run: npm test
 
+  action-test:
+    name: Action test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: mondeja/strip-gh-theme-links@master
+      with:
+        files: README.md
+        keep: dark
+    - run: cat README.md
+
   npm:
     if: startsWith(github.ref, 'refs/tags/')
     needs:
       - test
       - lint
+      - action-test
     name: NPM Package
     runs-on: ubuntu-latest
     steps:

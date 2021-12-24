@@ -7,7 +7,7 @@ import { getFiles } from '../../action'
 
 const TMP_DIRNAME = 'shgtla-get-files-as-globs'
 
-test('Get files as plain', () => {
+test('Get files from plain text', () => {
   const testdir = path.join(tmpdir(), TMP_DIRNAME)
   if (fs.existsSync(testdir)) {
     fs.rmdirSync(testdir, {recursive: true})
@@ -23,6 +23,7 @@ test('Get files as plain', () => {
   process.env["INPUT_FILES"] = filenames
     .map(filename => path.join(testdir, filename))
     .join('\n')
+    + '\n'  // newline that action appends in multiline inputs
   assert.equal(
     getFiles(),
     filenames.map(filename => path.join(testdir, filename)),
@@ -32,20 +33,20 @@ test('Get files as plain', () => {
   fs.rmdirSync(testdir, {recursive: true})
 })
 
-test('Get files as globs', () => {
+test('Get files from globs', () => {
   const testdir = path.join(tmpdir(), TMP_DIRNAME)
   if (fs.existsSync(testdir)) {
     fs.rmdirSync(testdir, {recursive: true})
   }
   fs.mkdirSync(testdir)
 
-  const filenames = ['foo.md', 'bar.md']
+  const filenames = ['foo.md', 'bar.md',]
   for (const filename of filenames) {
     const filepath = path.join(testdir, filename)
     fs.writeFileSync(filepath, '')
   }
 
-  process.env["INPUT_FILES"] = path.join(testdir, '*.md')
+  process.env["INPUT_FILES"] = path.join(testdir, '*.md') + '\n'
   assert.equal(
     getFiles(),
     filenames.map(filename => path.join(testdir, filename)).sort()
