@@ -23,13 +23,13 @@ export function run() {
 
     if (content.length !== strippedContent.length) {
       core.info(
-        `Stripped ${strippedTheme} theme image links from file ${file}`
+        `Stripped ${strippedTheme} theme image links from '${file}' file`
       );
       fs.writeFileSync(file, strippedContent);
       // TODO: Show diff between original and stripped content for debugging
     } else {
-      core.debug(
-        `Any ${strippedTheme} theme image links stripped from file ${file}`
+      core.warning(
+        `Any ${strippedTheme} theme image links stripped from '${file}' file`
       );
     }
   }
