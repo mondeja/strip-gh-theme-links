@@ -8,6 +8,9 @@ inputs:
   keep:
     description: Type of links to keep in the files. Either 'light' or 'dark'. As default 'light'.
     required: false
+  strict:
+    description: Treat warnings as errors and exit with code 1.
+    required: false
 runs:
   using: node16
   main: dist-action/index.js

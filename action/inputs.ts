@@ -4,7 +4,8 @@ import * as glob from "glob";
 
 type keepType = "light" | "dark";
 
-export function getFiles(): Array<string> {
+export function getFiles(strict?: boolean | undefined): Array<string> {
+  let warned = false;
   const filesInput = core.getInput("files");
   const files = filesInput
     .split("\n")
@@ -18,16 +19,24 @@ export function getFiles(): Array<string> {
         if (fs.existsSync(filepath)) {
           return [filepath];
         }
-        core.warning(
-          `File '${filepath}' specified inside 'files' input does not exist!`
+        core[strict ? "error" : "warning"](
+          `File '${filepath}' specified inside 'files'`
+          + ` input does not exist or glob has not found any files!`
         );
+        warned = true
         return [];
       }
       return globbed;
     })
     .flat();
   if (files.length === 0) {
-    core.warning(`Any files found matching the input '${filesInput}'!`);
+    warned = true;
+    core[strict ? "error" : "warning"](
+      `Any files found matching the input '${filesInput}'!`
+    );
+  }
+  if (strict && warned) {
+    process.exit(1)
   }
   return files;
 }
@@ -42,4 +51,8 @@ export function getKeep(): keepType {
     );
   }
   return keep;
+}
+
+export function getStrict(): boolean {
+  return ["true", true].includes(core.getInput("strict"));
 }
