@@ -9,8 +9,8 @@
   "files": ["dist/cjs", "dist/esm", "index.d.ts"],
   "scripts": {
     "clean": "rimraf dist *.tgz",
-    "lint:fix": "eslint '*.{t,j}s' --fix && eslint 'tests/**/*.ts' --fix",
-    "lint": "eslint '*.{t,j}s' && eslint 'tests/**/*.ts'",
+    "lint:fix": "npm run lint -- --fix",
+    "lint": "eslint '*.{t,j}s' 'tests/**/*.ts'",
     "build:action": "ncc build action/index.ts --minify --v8-cache -o dist/action",
     "build:cjs": "tsc index.ts --module commonjs --outDir dist/cjs",
     "build:esm": "tsc index.ts --module es2020 --outDir dist/esm",
