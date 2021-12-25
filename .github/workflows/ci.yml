@@ -52,6 +52,7 @@ jobs:
         strict: true
     - run: cat README.md
     - name: Strict integration test
+      continue-on-error: true
       uses: mondeja/strip-gh-theme-links@feat-2
       with:
         files: |
@@ -63,7 +64,9 @@ jobs:
         echo "Strict integration test failed"
         exit 1
     - if: ${{ failure() }}
-      run: echo "Strict integration test success"
+      run: |
+        echo "Strict integration test success"
+
 
 
   npm:
