@@ -14,7 +14,7 @@
     "build:action": "ncc build action/index.ts --minify --v8-cache -o dist/action",
     "build:cjs": "tsc index.ts --module commonjs --outDir dist/cjs",
     "build:esm": "tsc index.ts --module es2020 --outDir dist/esm",
-    "build": "run-s clean build:action build:cjs build:esm",
+    "build": "run-s build:action && run-p build:cjs build:esm",
     "test": "uvu -r tsm tests",
     "prebuild": "run-s lint:fix clean",
     "prepare": "is-ci || husky install"
