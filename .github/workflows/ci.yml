@@ -46,28 +46,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: mondeja/strip-gh-theme-links@feat-2
+    - uses: mondeja/strip-gh-theme-links@master
       with:
         files: README.md
         strict: true
     - run: cat README.md
-    - name: Strict integration test
-      continue-on-error: true
-      uses: mondeja/strip-gh-theme-links@feat-2
-      with:
-        files: |
-          unexistent-file.md
-          another-unexistent-file.md
-        strict: true
-    - if: ${{ success() }}
-      run: |
-        echo "Strict integration test failed"
-        exit 1
-    - if: ${{ failure() }}
-      run: |
-        echo "Strict integration test success"
-
-
 
   npm:
     if: startsWith(github.ref, 'refs/tags/')
