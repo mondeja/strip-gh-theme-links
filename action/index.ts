@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as core from "@actions/core";
 
-import { stripGhThemeLinks } from "..";
+import stripGhThemeLinks from "..";
 import { getFiles, getKeep, getStrict } from './inputs';
 
 export function run() {

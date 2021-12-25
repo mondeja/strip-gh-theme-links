@@ -5,12 +5,12 @@
     "target": "esnext",
     "noImplicitAny": true,
     "moduleResolution": "node",
+    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "alwaysStrict": true,
     "module": "esnext",
-    "checkJs": true,
-    "noEmit": true,
+    "noEmit": true
   },
-  "include": ["tests", "main.ts"],
-  "exclude": ["node_modules", "index.js"]
+  "include": ["tests", "action", "index.ts"],
+  "exclude": ["node_modules"]
 }

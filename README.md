@@ -27,7 +27,7 @@ npm install strip-gh-theme-links
 ### Node.js
 
 ```javascript
-const { stripGhThemeLinks } = require("strip-gh-theme-links");
+const stripGhThemeLinks = require("strip-gh-theme-links");
 
 const content = `
 <p align="center>
@@ -50,7 +50,7 @@ console.log(stripGhThemeLinks(content, 'light'))
 *keep: 'light' | 'dark'*): *string*
 
 - <a name="stripGhThemeLinks-content" href="#stripGhThemeLinks-content">#</a>
-*content* ⇒ Content for which the Github image theme links will be
+*content* ⇒ Content for which the Github theme image links will be
 stripped.
 - <a name="stripGhThemeLinks-keep" href="#stripGhThemeLinks-keep">#</a>
 *keep (default: `'light'`)* ⇒ Theme variant links to keep in the content.
@@ -75,7 +75,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Strip Github theme image links
-        uses: mondeja/strip-gh-theme-links@v1
+        uses: mondeja/strip-gh-theme-links@v2
         with:
           files: |
             README.md

@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 const urlRe =
   /[\w\-./?:_%=&]+(?:#gh-(?:(?:light)|(?:dark))-mode-only)(?:[\w\-./?:_%=&]+)?/;
 
@@ -22,18 +20,22 @@ const htmlTagRe = new RegExp(
   "g"
 );
 
-/* TODO:
-  - Multiple in same line for inline Markdown and HTML.
-  - Strip empty lines.
-*/
-
-const stripGhThemeLinks = function (content, keep) {
+/**
+ * @param content Content for which Github theme image links
+ * will be stripped.
+ * @param keep Theme variant links to keep in the content.
+ * @returns Content with Github theme links stripped.
+ */
+export default function stripGhThemeLinks(
+  content: string,
+  keep: "light" | "dark"
+): string {
   const expectedSubstringToKeep = `#gh-${keep}-mode-only`,
     expectedSubstringToStrip = `#gh-${
       keep === "dark" ? "light" : "dark"
     }-mode-only`;
 
-  function replacer(match) {
+  function replacer(match: string): string {
     return match.includes(expectedSubstringToKeep)
       ? match.replace(expectedSubstringToKeep, "")
       : // only strip if includes the substring for other theme
@@ -54,8 +56,4 @@ const stripGhThemeLinks = function (content, keep) {
     return stripGhThemeLinks(transformed, keep);
   }
   return transformed;
-};
-
-module.exports = {
-  stripGhThemeLinks,
-};
+}

@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: 16.x
       - name: Install
-        run: npm ci
+        run: npm i
       - name: Lint
         run: npm run lint
 
@@ -37,7 +37,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: Install
-      run: npm ci
+      run: npm i
     - name: Test
       run: npm test
 
@@ -46,11 +46,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: mondeja/strip-gh-theme-links@v1
+    - uses: mondeja/strip-gh-theme-links@v2
       with:
         files: README.md
         strict: true
-    - run: cat README.md
+    - run: |
+        cat README.md
+        if [ -n "$(< README.md grep '.svg#gh-dark-mode-only')" ]; then exit 1; fi
+        if [ -n "$(< README.md grep '.svg#gh-light-mode-only')" ]; then exit 1; fi
 
   npm:
     if: startsWith(github.ref, 'refs/tags/')
@@ -68,7 +71,7 @@ jobs:
       with:
         node-version: 16.x
     - name: Install dependencies
-      run: npm ci
+      run: npm i
     - name: Sanity check
       run: |
         npm run lint

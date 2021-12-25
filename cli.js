@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-// @ts-nocheck
 /* eslint @typescript-eslint/no-var-requires: 0 */
 
 const fs = require("fs");
@@ -75,7 +74,7 @@ if (require.main === module) {
     process.argv.slice(sliceN, process.argv.length)
   );
 
-  const { stripGhThemeLinks } = require(".");
+  const stripGhThemeLinks = require("./dist/cjs");
   const content = fs.readFileSync(file, "utf-8");
   process.stdout.write(stripGhThemeLinks(content, keep));
 }
