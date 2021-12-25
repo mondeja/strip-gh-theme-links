@@ -24,7 +24,7 @@ npm install strip-gh-theme-links
 
 ## Usage
 
-### Node.js API
+### Node.js
 
 ```javascript
 const { stripGhThemeLinks } = require("strip-gh-theme-links");
@@ -75,8 +75,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Strip Github theme image links
+        uses: mondeja/strip-gh-theme-links@v0.2.1
         with:
-          keep: light
           files: |
             README.md
             CONTRIBUTING.md

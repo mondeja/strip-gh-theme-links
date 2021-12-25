@@ -56,4 +56,16 @@ test("Strip HTML relative inline", () => {
   );
 });
 
+test("Strip HTML attributes without double quote wrapping", () => {
+  const content = `
+### Node Usage <img src="./assets/readme/nodedotjs-white.svg#gh-dark-mode-only" alt="Node" align=left width=24><img src="./assets/readme/nodedotjs.svg#gh-light-mode-only" alt="Node" align=left width=24>
+`;
+  assert.equal(
+    stripGhThemeLinks(content, "light"),
+    `
+### Node Usage <img src="./assets/readme/nodedotjs.svg" alt="Node" align=left width=24>
+`
+  );
+});
+
 test.run();
