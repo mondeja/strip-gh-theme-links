@@ -7,7 +7,7 @@ test("README Github Action version updated in documentation", () => {
   const readmeContent = fs.readFileSync("README.md", "utf-8"),
     packageJson = JSON.parse(fs.readFileSync("package.json", "utf-8"));
 
-  const ghActionReadmeVersionMatch = /strip-gh-theme-links@v([\d\w.]+)/g.exec(
+  const ghActionReadmeVersionMatch = /strip-gh-theme-links@v(\d+)/g.exec(
     readmeContent
   );
   assert.not.equal(ghActionReadmeVersionMatch, null);
@@ -15,7 +15,7 @@ test("README Github Action version updated in documentation", () => {
     ghActionReadmeVersionMatch as Array<string>
   )[1];
 
-  assert.equal(packageJson.version, ghActionReadmeVersion);
+  assert.equal(packageJson.version.split(".")[0], ghActionReadmeVersion);
 });
 
 test.run();
