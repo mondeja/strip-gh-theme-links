@@ -2,11 +2,14 @@ import * as fs from "fs";
 import * as core from "@actions/core";
 
 import { stripGhThemeLinks } from "..";
-import { getFiles, getKeep } from './inputs';
+import { getFiles, getKeep, getStrict } from './inputs';
 
 export function run() {
-  // Get inputs
-  const files = getFiles(),
+  let warned = false;
+
+  // Parse inputs
+  const strict = getStrict(),
+    files = getFiles(strict),
     keep = getKeep(),
     strippedTheme = keep === "light" ? "dark" : "light";
 
@@ -28,10 +31,15 @@ export function run() {
       fs.writeFileSync(file, strippedContent);
       // TODO: Show diff between original and stripped content for debugging
     } else {
-      core.warning(
+      core[strict ? "error" : "warning"](
         `Any ${strippedTheme} theme image links stripped from '${file}' file`
       );
+      warned = true;
     }
+  }
+
+  if (strict && warned) {
+    process.exit(1)
   }
 }
 

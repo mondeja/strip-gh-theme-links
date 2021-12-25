@@ -48,8 +48,8 @@ jobs:
     - uses: actions/checkout@v2
     - uses: mondeja/strip-gh-theme-links@master
       with:
-        files: |
-          README.md
+        files: README.md
+        strict: true
     - run: cat README.md
 
   npm:

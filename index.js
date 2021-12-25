@@ -4,7 +4,7 @@ const urlRe =
   /[\w\-./?:_%=&]+(?:#gh-(?:(?:light)|(?:dark))-mode-only)(?:[\w\-./?:_%=&]+)?/;
 
 const markdownInlineLinkRe = new RegExp(
-  /(?:!\[(?:[^[\]]|\[[^\]]*\])*\])\(/.source +
+  /(?:!?\[(?:[^[\]]|\[[^\]]*\])*\])\(/.source +
     urlRe.source +
     /(?:\s["']\w+["'])?\)/.source,
   "g"
