@@ -23,10 +23,8 @@
   },
   "contributors": [],
   "repository": "https://github.com/mondeja/strip-gh-theme-links-action",
-  "dependencies": {
-    "@actions/core": "1.6.0"
-  },
   "devDependencies": {
+    "@actions/core": "1.6.0",
     "@types/glob": "7.2.0",
     "@types/node": "17.0.4",
     "@typescript-eslint/eslint-plugin": "5.8.0",
