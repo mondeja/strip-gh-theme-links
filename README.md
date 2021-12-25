@@ -49,8 +49,11 @@ console.log(stripGhThemeLinks(content, 'light'))
 <b>stripGhThemeLinks</b>(<i>content: string</i>,
 <i>keep: 'light' | 'dark'</i>): <i>string</i>
 
-- <a name="stripGhThemeLinks-content" href="#stripGhThemeLinks-content">#</a> <i>content</i> ⇒ Content for which the Github image theme links will be stripped.
-- <a name="stripGhThemeLinks-keep" href="#stripGhThemeLinks-keep">#</a> <i>keep (default: 'light')</i> ⇒ Theme variant links to keep in the content.
+- <a name="stripGhThemeLinks-content" href="#stripGhThemeLinks-content">#</a>
+<i>content</i> ⇒ Content for which the Github image theme links will be
+stripped.
+- <a name="stripGhThemeLinks-keep" href="#stripGhThemeLinks-keep">#</a>
+<i>keep (default: 'light')</i> ⇒ Theme variant links to keep in the content.
 
 ### CLI
 
@@ -79,7 +82,9 @@ jobs:
             CONTRIBUTING.md
 ```
 
-> :warning: It is recomended to run the [CLI](#cli) to check that your files are correctly stripped before configure this action in your release pipeline.
+> :warning: It is recomended to run the [CLI](#cli) to check that your
+> files are correctly stripped before configure this action in your release
+> pipeline.
 >
 > If you experiments errors, please [report them][new-issue].
 
@@ -89,8 +94,14 @@ jobs:
 
 - <a name="input-files" href="#input-files">#</a> <b>files</b> ⇒
 Path to files or globs to strip, separated by newlines.
-- <a name="input-keep" href="#input-keep">#</a> <b>keep</b> (default: 'light') ⇒
-Theme variant links to keep in the content of the files.
+- <a name="input-keep" href="#input-keep">#</a> <b>keep</b>
+(default: 'light') ⇒ Theme variant links to keep in the content
+of the files.
+- <a name="input-strict" href="#input-strict">#</a> <b>strict</b>
+(default: false) ⇒ Treat warnings as errors and exit with code 1.
+Warnings are raised when a file specified in
+[`files` input](#input-files) is not found or when any image links
+are stripped from a file.
 
 [modes-docs]: https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#specifying-the-theme-an-image-is-shown-to
 [new-issue]: https://github.com/mondeja/strip-gh-theme-links/issues/new
