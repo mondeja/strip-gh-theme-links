@@ -46,14 +46,14 @@ console.log(stripGhThemeLinks(content, 'light'))
 #### Reference
 
 <a name="stripGhThemeLinks" href="#stripGhThemeLinks">#</a>
-<b>stripGhThemeLinks</b>(<i>content: string</i>,
-<i>keep: 'light' | 'dark'</i>): <i>string</i>
+**stripGhThemeLinks**(*content: string*,
+*keep: 'light' | 'dark'*): *string*
 
 - <a name="stripGhThemeLinks-content" href="#stripGhThemeLinks-content">#</a>
-<i>content</i> ⇒ Content for which the Github image theme links will be
+*content* ⇒ Content for which the Github image theme links will be
 stripped.
 - <a name="stripGhThemeLinks-keep" href="#stripGhThemeLinks-keep">#</a>
-<i>keep (default: 'light')</i> ⇒ Theme variant links to keep in the content.
+*keep (default: `'light'`)* ⇒ Theme variant links to keep in the content.
 
 ### CLI
 
@@ -92,13 +92,13 @@ jobs:
 
 #### Inputs
 
-- <a name="input-files" href="#input-files">#</a> <b>files</b> ⇒
-Path to files or globs to strip, separated by newlines.
-- <a name="input-keep" href="#input-keep">#</a> <b>keep</b>
-(default: 'light') ⇒ Theme variant links to keep in the content
+- <a name="input-files" href="#input-files">#</a> **files** ⇒
+(required) ⇒ Path to files or globs to strip, separated by newlines.
+- <a name="input-keep" href="#input-keep">#</a> **keep**
+(default: `'light'`) ⇒ Theme variant links to keep in the content
 of the files.
-- <a name="input-strict" href="#input-strict">#</a> <b>strict</b>
-(default: false) ⇒ Treat warnings as errors and exit with code 1.
+- <a name="input-strict" href="#input-strict">#</a> **strict**
+(default: `false`) ⇒ Treat warnings as errors and exit with code 1.
 Warnings are raised when a file specified in
 [`files` input](#input-files) is not found or when any image links
 are stripped from a file.
