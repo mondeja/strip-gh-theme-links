@@ -75,7 +75,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Strip Github theme image links
-        uses: mondeja/strip-gh-theme-links@v0.2.0
+        uses: mondeja/strip-gh-theme-links@v0.2.1
         with:
           files: |
             README.md
