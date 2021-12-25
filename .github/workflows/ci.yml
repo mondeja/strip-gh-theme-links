@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: mondeja/strip-gh-theme-links@fix-3
+    - uses: mondeja/strip-gh-theme-links@master
       with:
         files: README.md
         strict: true
