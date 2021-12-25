@@ -1,6 +1,6 @@
 {
   "name": "strip-gh-theme-links",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Strip Github dark/light theme image links",
   "main": "index.js",
   "bin": "cli.js",
@@ -10,12 +10,9 @@
     "lint": "eslint '*.{t,j}s' && eslint 'tests/**/*.ts'",
     "build": "ncc build action/index.ts --minify --v8-cache -o dist-action",
     "test": "uvu -r tsm tests",
-    "prebuild": "run-s lint:fix clean"
+    "prebuild": "run-s lint:fix clean",
+    "prepare": "is-ci || husky install"
   },
-  "files": [
-    "dist",
-    "action.yml"
-  ],
   "license": "BSD-3-Clause",
   "author": {
     "name": "Álvaro Mondéjar Rubio",
@@ -34,6 +31,8 @@
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-prettier": "4.0.0",
     "glob": "7.2.0",
+    "husky": "7.0.4",
+    "is-ci": "3.0.1",
     "npm-run-all": "4.1.5",
     "prettier": "2.5.1",
     "rimraf": "3.0.2",
