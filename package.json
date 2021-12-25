@@ -1,6 +1,6 @@
 {
   "name": "strip-gh-theme-links",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Strip Github dark/light theme image links",
   "main": "index.js",
   "bin": "cli.js",
@@ -13,10 +13,6 @@
     "prebuild": "run-s lint:fix clean",
     "prepare": "is-ci || husky install"
   },
-  "files": [
-    "dist",
-    "action.yml"
-  ],
   "license": "BSD-3-Clause",
   "author": {
     "name": "Álvaro Mondéjar Rubio",
