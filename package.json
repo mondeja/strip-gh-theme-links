@@ -1,12 +1,16 @@
 {
   "name": "strip-gh-theme-links",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Strip Github dark/light theme image links",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "./index.d.ts",
   "bin": "cli.js",
-  "files": ["dist/cjs", "dist/esm", "index.d.ts"],
+  "files": [
+    "dist/cjs",
+    "dist/esm",
+    "index.d.ts"
+  ],
   "scripts": {
     "lint": "eslint '*.{t,j}s' 'tests/**/*.ts'",
     "lint:fix": "npm run lint -- --fix",
@@ -26,6 +30,9 @@
   },
   "contributors": [],
   "repository": "https://github.com/mondeja/strip-gh-theme-links-action",
+  "dependencies": {
+    "fake-diff": "1.0.0"
+  },
   "devDependencies": {
     "@actions/core": "1.6.0",
     "@types/glob": "7.2.0",

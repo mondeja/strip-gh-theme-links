@@ -82,8 +82,9 @@ jobs:
             CONTRIBUTING.md
 ```
 
-> :warning: It is recomended to run the [CLI](#cli) to check that your
-> files are correctly stripped before configure this action in your release
+> :warning: It is recomended to run the [CLI](#cli) with
+> `strip-gh-theme-links --diff file.md` to check that your files are
+> correctly stripped before configure this action in your release
 > pipeline.
 >
 > If you experiments errors, please [report them][new-issue].
