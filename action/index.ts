@@ -27,9 +27,9 @@ export function run() {
 
     if (content.length !== strippedContent.length) {
       core.info(
-        `----------\nStripped ${strippedTheme} theme image links from`
-        + ` '${file}' file:\n\n${fakeDiff(content, strippedContent)}`
-        + `\n----------`
+        `---------- Stripped ${strippedTheme} theme image links from`
+        + ` '${file}' file ----------\n\n`
+        + `${fakeDiff(content, strippedContent)}\n----------`
       );
       fs.writeFileSync(file, strippedContent);
     } else {
