@@ -46,12 +46,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: mondeja/strip-gh-theme-links@feat-10
+    - uses: mondeja/strip-gh-theme-links@master
       with:
         files: README.md
         strict: true
     - run: |
-        cat README.md
         if [ -n "$(< README.md grep '.svg#gh-dark-mode-only')" ]; then exit 1; fi
         if [ -n "$(< README.md grep '.svg#gh-light-mode-only')" ]; then exit 1; fi
 
