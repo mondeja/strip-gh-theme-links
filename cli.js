@@ -73,7 +73,9 @@ function processArgs(args) {
   }
 
   if (write && diff) {
-    console.error(`The option --write is not compatible along with --diff`);
+    console.error(
+      `ERROR: The option --write is not compatible along with --diff`
+    );
     help();
   }
 
@@ -96,7 +98,7 @@ if (require.main === module) {
   const content = fs.readFileSync(file, "utf-8");
   const strippedContent = stripGhThemeLinks(content, keep);
   if (strict && content.length === strippedContent.length) {
-    console.error(`Any content stripped from file '${file}'`);
+    console.error(`ERROR: Any content stripped from file '${file}'`);
     process.exit(1);
   }
 
