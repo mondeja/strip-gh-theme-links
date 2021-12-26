@@ -3,6 +3,7 @@
 
 const fs = require("fs");
 const packageJson = require("./package.json");
+const fakeDiff = require("fake-diff");
 
 function help() {
   console.error(
@@ -11,12 +12,13 @@ function help() {
     Output is redirected to STDOUT.
 
   Usage:
-    ${packageJson.name} [-h] [-v] [-k 'light' | 'dark'] file.md
+    ${packageJson.name} [-h] [-v] [-k 'light' | 'dark'] [-d] file.md
 
   Options:
     -h, --help     Display this help text and exit.
     -v, --version  Show this program version number (${packageJson.version}).
     -k, --keep     Theme image links to keep. Either 'light or 'dark'.
+    -d, --diff     Show the difference before and after links stripping.
 `
   );
   process.exit(1);
@@ -34,12 +36,15 @@ function processArgs(args) {
 
   let keep = "light",
     file,
-    _insideKeep = false;
+    _insideKeep = false,
+    diff = false;
   for (const arg of args) {
     if (["-h", "--help"].includes(arg)) {
       help();
     } else if (["-v", "--version"].includes(arg)) {
       version();
+    } else if (["-d", "--diff"].includes(arg)) {
+      diff = true;
     } else if (["-k", "--keep"].includes(arg)) {
       _insideKeep = true;
     } else if (_insideKeep) {
@@ -59,7 +64,7 @@ function processArgs(args) {
     }
   }
 
-  return { keep, file };
+  return { file, keep, diff };
 }
 
 if (require.main === module) {
@@ -70,11 +75,16 @@ if (require.main === module) {
   ) {
     sliceN = 2;
   }
-  const { file, keep } = processArgs(
+  const { file, keep, diff } = processArgs(
     process.argv.slice(sliceN, process.argv.length)
   );
 
-  const stripGhThemeLinks = require("./dist/cjs");
+  const stripGhThemeLinks = require("./dist/cjs").default;
   const content = fs.readFileSync(file, "utf-8");
-  process.stdout.write(stripGhThemeLinks(content, keep));
+  const strippedContent = stripGhThemeLinks(content, keep);
+  if (diff) {
+    console.log(fakeDiff(content, strippedContent));
+  } else {
+    console.log(strippedContent);
+  }
 }

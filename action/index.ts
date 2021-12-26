@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as core from "@actions/core";
+import fakeDiff from "fake-diff";
 
 import stripGhThemeLinks from "..";
 import { getFiles, getKeep, getStrict } from './inputs';
@@ -26,10 +27,11 @@ export function run() {
 
     if (content.length !== strippedContent.length) {
       core.info(
-        `Stripped ${strippedTheme} theme image links from '${file}' file`
+        `----------\nStripped ${strippedTheme} theme image links from`
+        + ` '${file}' file:\n\n${fakeDiff(content, strippedContent)}`
+        + `\n----------`
       );
       fs.writeFileSync(file, strippedContent);
-      // TODO: Show diff between original and stripped content for debugging
     } else {
       core[strict ? "error" : "warning"](
         `Any ${strippedTheme} theme image links stripped from '${file}' file`
