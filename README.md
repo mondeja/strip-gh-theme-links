@@ -11,10 +11,10 @@ to delete one of the images before uploading your documents to
 other platforms like, for example, Packagist (PHP) or PyPI
 (Python).
 
-This npm package and Github Action is for you. It strips all
-the unwanted content about one of the theme versions from your
-files. Perfect for running it before your packaging step in
-your release pipelines.
+These npm package, CLI and Github Action are for you. They strip
+all the image theme links about one of the Github theme versions
+from your files. Perfect for running it before your packaging step
+in your release pipelines.
 
 ## Install
 
@@ -27,7 +27,7 @@ npm install strip-gh-theme-links
 ### Node.js
 
 ```javascript
-const stripGhThemeLinks = require("strip-gh-theme-links");
+import stripGhThemeLinks from "strip-gh-theme-links";
 
 const content = `
 <p align="center>
