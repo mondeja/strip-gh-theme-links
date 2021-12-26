@@ -55,35 +55,12 @@ jobs:
         if [ -n "$(< README.md grep '.svg#gh-dark-mode-only')" ]; then exit 1; fi
         if [ -n "$(< README.md grep '.svg#gh-light-mode-only')" ]; then exit 1; fi
 
-  npm:
-    if: startsWith(github.ref, 'refs/tags/')
+  release:
+    name: Release
     needs:
       - test
       - lint
       - action-test
-    name: NPM Package
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Use NodeJS v16
-      uses: actions/setup-node@v2.2.0
-      with:
-        node-version: 16.x
-    - name: Install dependencies
-      run: npm i
-    - name: Sanity check
-      run: |
-        npm run lint
-        npm test
-    - name: Deploy to NPM
-      uses: JS-DevTools/npm-publish@v1.4.3
-      with:
-        token: ${{ secrets.NPM_TOKEN }}
-
-  release:
-    name: Release
-    needs: npm
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -111,3 +88,26 @@ jobs:
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  npm:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: release
+    name: NPM Package
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Use NodeJS v16
+      uses: actions/setup-node@v2.2.0
+      with:
+        node-version: 16.x
+    - name: Install dependencies
+      run: npm i
+    - name: Sanity check
+      run: |
+        npm run lint
+        npm test
+    - name: Deploy to NPM
+      uses: JS-DevTools/npm-publish@v1.4.3
+      with:
+        token: ${{ secrets.NPM_TOKEN }}
