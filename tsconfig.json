@@ -11,6 +11,6 @@
     "module": "esnext",
     "noEmit": true
   },
-  "include": ["./tests", "./action", "./index.ts", "./types"],
+  "include": ["./tests", "./action", "./index.ts"],
   "exclude": ["./node_modules"]
 }
