@@ -16,7 +16,7 @@ const markdownReferenceLinkRe = new RegExp(
 );
 
 const htmlTagRe = new RegExp(
-  /<[a-zA-Z][^>]+=["']/.source + urlRe.source + /["'][^<]*\/?>/.source,
+  /<[a-zA-Z][^>]+=["']?/.source + urlRe.source + /["']?[^>]*\/?>/.source,
   "g"
 );
 

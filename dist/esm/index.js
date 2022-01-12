@@ -5,7 +5,7 @@ var markdownInlineLinkRe = new RegExp(/(?:!?\[(?:[^[\]]|\[[^\]]*\])*\])\(/.sourc
 var markdownReferenceLinkRe = new RegExp(/^\s{0,3}\[[^\]]+]:\s/.source +
     urlRe.source +
     /(?:\s["']\w+["'])?\s*$/.source, "gm");
-var htmlTagRe = new RegExp(/<[a-zA-Z][^>]+=["']/.source + urlRe.source + /["'][^<]*\/?>/.source, "g");
+var htmlTagRe = new RegExp(/<[a-zA-Z][^>]+=["']?/.source + urlRe.source + /["']?[^>]*\/?>/.source, "g");
 /**
  * @param content Content for which Github theme image links
  * will be stripped.

@@ -3,7 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { test } from "uvu";
 import * as assert from "uvu/assert";
-import { getFiles } from "../../action/inputs";
+import { getFiles } from "../../../action/inputs";
 
 const TMP_DIRNAME = "shgtla-get-files-as-globs";
 

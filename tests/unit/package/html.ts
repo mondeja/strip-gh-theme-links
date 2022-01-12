@@ -1,6 +1,6 @@
 import { test } from "uvu";
 import * as assert from "uvu/assert";
-import stripGhThemeLinks from "../..";
+import stripGhThemeLinks from "../../..";
 
 test("Strip HTML absolute inline with alt", () => {
   const content = `

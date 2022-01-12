@@ -1,6 +1,6 @@
 import { test } from "uvu";
 import * as assert from "uvu/assert";
-import { getStrict } from "../../action/inputs";
+import { getStrict } from "../../../action/inputs";
 
 test("Get strict as default", () => {
   assert.equal(getStrict(), false);
