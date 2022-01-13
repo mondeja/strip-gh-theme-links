@@ -31,8 +31,7 @@ test("Strip HTML absolute inline", () => {
   assert.equal(
     stripGhThemeLinks(content, "light"),
     `
-<img src="https://raw.githubusercontent.com/user/repo/assets/readme/nodedotjs-black.svg?ver=1.0.1&foo=bar">
-`
+<img src="https://raw.githubusercontent.com/user/repo/assets/readme/nodedotjs-black.svg?ver=1.0.1&foo=bar">`
   );
 });
 
