@@ -1,6 +1,6 @@
 {
   "name": "strip-gh-theme-links",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "Strip Github dark/light theme image links",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",

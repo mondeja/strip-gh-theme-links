@@ -10,8 +10,7 @@ test("Strip Markdown absolute referenced with title and alt", () => {
   assert.equal(
     stripGhThemeLinks(content, "light"),
     `
-[title]: https://raw.githubusercontent.com/user/repo/assets/readme/nodedotjs-black.svg?ver=1.0.1&foo=bar "Alt"
-`
+[title]: https://raw.githubusercontent.com/user/repo/assets/readme/nodedotjs-black.svg?ver=1.0.1&foo=bar "Alt"`
   );
 
   assert.equal(
@@ -29,8 +28,7 @@ test("Strip Markdown absolute referenced with title", () => {
   assert.equal(
     stripGhThemeLinks(content, "light"),
     `
-[title]: https://raw.githubusercontent.com/user/repo/assets/readme/nodedotjs-black.svg?ver=1.0.1&foo=bar
-`
+[title]: https://raw.githubusercontent.com/user/repo/assets/readme/nodedotjs-black.svg?ver=1.0.1&foo=bar`
   );
 });
 
@@ -42,8 +40,7 @@ test("Strip Markdown relative referenced", () => {
   assert.equal(
     stripGhThemeLinks(content, "light"),
     `
-[title]: ./assets/readme/nodedotjs-black.svg?ver=1.0.1&foo=bar
-`
+[title]: ./assets/readme/nodedotjs-black.svg?ver=1.0.1&foo=bar`
   );
 });
 

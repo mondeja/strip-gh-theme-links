@@ -178,6 +178,8 @@ https://github.com/simple-icons/simple-icons/blob/develop/CONTRIBUTING.md
 
   const result = stripGhThemeLinks(siReadme, "light");
   assert.equal(result.split("\n").length, siReadme.split("\n").length);
+  assert.not(result.includes("gh-light-mode-only"));
+  assert.not(result.includes("gh-dark-mode-only"));
 });
 
 test.run();

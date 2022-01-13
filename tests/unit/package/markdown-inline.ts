@@ -10,14 +10,12 @@ test("Strip Markdown absolute inline with title and alt", () => {
   assert.equal(
     stripGhThemeLinks(content, "light"),
     `
-![title](https://raw.githubusercontent.com/user/repo/assets/readme/nodedotjs-black.svg?ver=1.0.1&foo=bar "Alt")
-`
+![title](https://raw.githubusercontent.com/user/repo/assets/readme/nodedotjs-black.svg?ver=1.0.1&foo=bar "Alt")`
   );
 
   assert.equal(
     stripGhThemeLinks(content, "dark"),
     `
-
 ![title](https://raw.githubusercontent.com/user/repo/assets/readme/nodedotjs-white.svg?ver=1.0.5&bar=baz "Alt")`
   );
 });
@@ -30,8 +28,7 @@ test("Strip Markdown absolute inline with title", () => {
   assert.equal(
     stripGhThemeLinks(content, "light"),
     `
-![title](https://raw.githubusercontent.com/user/repo/assets/readme/nodedotjs-black.svg?ver=1.0.1&foo=bar)
-`
+![title](https://raw.githubusercontent.com/user/repo/assets/readme/nodedotjs-black.svg?ver=1.0.1&foo=bar)`
   );
 });
 
@@ -43,7 +40,6 @@ test("Strip Markdown absolute inline with empty title", () => {
   assert.equal(
     stripGhThemeLinks(content, "dark"),
     `
-
 ![](https://raw.githubusercontent.com/user/repo/assets/readme/nodedotjs-white.svg?ver=1.0.5&bar=baz)`
   );
 });
@@ -56,8 +52,7 @@ test("Strip Markdown relative inline with title and alt", () => {
   assert.equal(
     stripGhThemeLinks(content, "light"),
     `
-![title](./assets/readme/nodedotjs-black.svg?ver=1.0.1&foo=bar "Alt")
-`
+![title](./assets/readme/nodedotjs-black.svg?ver=1.0.1&foo=bar "Alt")`
   );
 });
 
@@ -69,8 +64,7 @@ test("Strip Markdown relative inline with title", () => {
   assert.equal(
     stripGhThemeLinks(content, "light"),
     `
-![title](./assets/readme/nodedotjs-black.svg?ver=1.0.1&foo=bar)
-`
+![title](./assets/readme/nodedotjs-black.svg?ver=1.0.1&foo=bar)`
   );
 });
 
