@@ -67,4 +67,15 @@ test("Strip HTML attributes without double quote wrapping", () => {
   );
 });
 
+test("Strip without wrapping attribute values within quotes", () => {
+  const content = `
+<img src=./assets/readme/nodedotjs-black.svg#gh-light-mode-only><img src=./assets/readme/nodedotjs-white.svg#gh-dark-mode-only>`;
+
+  assert.equal(
+    stripGhThemeLinks(content, "light"),
+    `
+<img src=./assets/readme/nodedotjs-black.svg>`
+  );
+});
+
 test.run();

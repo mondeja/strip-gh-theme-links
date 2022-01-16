@@ -1,31 +1,35 @@
 const urlRe =
-  /[\w\-./?:_%=&]+(?:#gh-(?:(?:light)|(?:dark))-mode-only)(?:[\w\-./?:_%=&]+)?/;
+  "[\\w\\-./?:_%=&]+(?:#gh-(?:(?:light)|(?:dark))-mode-only)(?:[\\w\\-./?:_%=&]+)?";
 
 const markdownInlineLinkRe = new RegExp(
-  /(?:!?\[(?:[^[\]]|\[[^\]]*\])*\])\(/.source +
-    urlRe.source +
-    /(?:\s["']\w+["'])?\)/.source,
+  "(?:!?\\[(?:[^[\\]]|\\[[^\\]]*\\])*\\])\\(" +
+    urlRe +
+    "(?:\\s[\"\\']\\w+[\"\\'])?\\)",
   "g"
 );
 
 const markdownReferenceLinkRe = new RegExp(
-  /\s{0,3}\[[^\]]+]:\s/.source + urlRe.source + /(?:\s["']\w+["'])?/.source,
+  "\\s{0,3}\\[[^\\]]+]:\\s" + urlRe + "(?:\\s[\"']\\w+[\"'])?",
   "g"
 );
 
 const htmlTagRe = new RegExp(
-  /<[a-zA-Z][^>]+=["']?/.source + urlRe.source + /["']?[^>]*\/?>/.source,
+  "<[a-zA-Z][^>]+=[\"']?" + urlRe + "[\"']?[^>]*\\/?>",
   "g"
 );
 
+const newLineRe = new RegExp("(\\r\\n|\\n|\\r)");
+const emptyLineRe = new RegExp("^(\\r\\n|\\n|\\r)$");
+const splitLinesRe = new RegExp("^.*((\\r\\n|\\n|\\r)|$)", "gm");
+
 function _splitlines(content: string): string[] {
-  return content.match(/^.*((\r\n|\n|\r)|$)/gm) as Array<string>;
+  return content.match(splitLinesRe) as Array<string>;
 }
 
 function _getEmptyLineNumbers(content: string) {
   return _splitlines(content)
     .map(function (line: string, i: number): null | number {
-      return line.replace(/(\r\n|\n|\r)/, "") ? null : i;
+      return line.replace(newLineRe, "") ? null : i;
     })
     .filter((num) => num !== null);
 }
@@ -78,10 +82,10 @@ export default function stripGhThemeLinks(
   for (let i = 0; i < lines.length; i++) {
     if (
       !emptyLineNumbers.includes(i) && // is not original empty line
-      !lines[i].replace(/^(\r\n|\n|\r)$/, "") // is a new empty line
+      !lines[i].replace(emptyLineRe, "") // is a new empty line
     ) {
       if (!emptyLineNumbers.includes(i - 1)) {
-        newLines[i - 1] = newLines[i - 1].replace(/(\r\n|\n|\r)/, "");
+        newLines[i - 1] = newLines[i - 1].replace(newLineRe, "");
       }
     } else {
       newLines.push(lines[i]);

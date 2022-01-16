@@ -1,18 +1,21 @@
 "use strict";
 exports.__esModule = true;
-var urlRe = /[\w\-./?:_%=&]+(?:#gh-(?:(?:light)|(?:dark))-mode-only)(?:[\w\-./?:_%=&]+)?/;
-var markdownInlineLinkRe = new RegExp(/(?:!?\[(?:[^[\]]|\[[^\]]*\])*\])\(/.source +
-    urlRe.source +
-    /(?:\s["']\w+["'])?\)/.source, "g");
-var markdownReferenceLinkRe = new RegExp(/\s{0,3}\[[^\]]+]:\s/.source + urlRe.source + /(?:\s["']\w+["'])?/.source, "g");
-var htmlTagRe = new RegExp(/<[a-zA-Z][^>]+=["']?/.source + urlRe.source + /["']?[^>]*\/?>/.source, "g");
+var urlRe = "[\\w\\-./?:_%=&]+(?:#gh-(?:(?:light)|(?:dark))-mode-only)(?:[\\w\\-./?:_%=&]+)?";
+var markdownInlineLinkRe = new RegExp("(?:!?\\[(?:[^[\\]]|\\[[^\\]]*\\])*\\])\\(" +
+    urlRe +
+    "(?:\\s[\"\\']\\w+[\"\\'])?\\)", "g");
+var markdownReferenceLinkRe = new RegExp("\\s{0,3}\\[[^\\]]+]:\\s" + urlRe + "(?:\\s[\"']\\w+[\"'])?", "g");
+var htmlTagRe = new RegExp("<[a-zA-Z][^>]+=[\"']?" + urlRe + "[\"']?[^>]*\\/?>", "g");
+var newLineRe = new RegExp("(\\r\\n|\\n|\\r)");
+var emptyLineRe = new RegExp("^(\\r\\n|\\n|\\r)$");
+var splitLinesRe = new RegExp("^.*((\\r\\n|\\n|\\r)|$)", "gm");
 function _splitlines(content) {
-    return content.match(/^.*((\r\n|\n|\r)|$)/gm);
+    return content.match(splitLinesRe);
 }
 function _getEmptyLineNumbers(content) {
     return _splitlines(content)
         .map(function (line, i) {
-        return line.replace(/(\r\n|\n|\r)/, "") ? null : i;
+        return line.replace(newLineRe, "") ? null : i;
     })
         .filter(function (num) { return num !== null; });
 }
@@ -51,10 +54,10 @@ function stripGhThemeLinks(content, keep) {
     var lines = _splitlines(stripLinks(content)), newLines = [];
     for (var i = 0; i < lines.length; i++) {
         if (!emptyLineNumbers.includes(i) && // is not original empty line
-            !lines[i].replace(/^(\r\n|\n|\r)$/, "") // is a new empty line
+            !lines[i].replace(emptyLineRe, "") // is a new empty line
         ) {
             if (!emptyLineNumbers.includes(i - 1)) {
-                newLines[i - 1] = newLines[i - 1].replace(/(\r\n|\n|\r)/, "");
+                newLines[i - 1] = newLines[i - 1].replace(newLineRe, "");
             }
         }
         else {
