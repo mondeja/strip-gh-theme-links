@@ -1,5 +1,6 @@
 "use strict";
 exports.__esModule = true;
+exports.stripLinks = void 0;
 var urlRe = "[\\w\\-./?:_%=&]+(?:#gh-(?:(?:light)|(?:dark))-mode-only)(?:[\\w\\-./?:_%=&]+)?";
 var markdownInlineLinkRe = new RegExp("(?:!?\\[(?:[^[\\]]|\\[[^\\]]*\\])*\\])\\(" +
     urlRe +
@@ -19,6 +20,28 @@ function _getEmptyLineNumbers(content) {
     })
         .filter(function (num) { return num !== null; });
 }
+function stripLinks(content, expectedSubstringToKeep, expectedSubstringToStrip) {
+    function replacer(match) {
+        return match.includes(expectedSubstringToKeep)
+            ? match.replace(expectedSubstringToKeep, "")
+            : // only strip if includes the substring for other theme
+                match.includes(expectedSubstringToStrip)
+                    ? ""
+                    : match.replace(expectedSubstringToKeep, "");
+    }
+    var transformed = content
+        .replace(markdownInlineLinkRe, replacer)
+        .replace(markdownReferenceLinkRe, replacer)
+        .replace(htmlTagRe, replacer);
+    // call recursively until all the `gh-${theme}-mode-only` links
+    // are stripped. This is easier to maintain than writing more complex
+    // regexes to fulfill the matching multiple times in a line.
+    if (transformed.length !== content.length) {
+        return stripLinks(transformed, expectedSubstringToKeep, expectedSubstringToStrip);
+    }
+    return transformed;
+}
+exports.stripLinks = stripLinks;
 /**
  * @param content Content for which Github theme image links
  * will be stripped.
@@ -29,29 +52,8 @@ function stripGhThemeLinks(content, keep) {
     var expectedSubstringToKeep = "#gh-".concat(keep, "-mode-only"), expectedSubstringToStrip = "#gh-".concat(keep === "dark" ? "light" : "dark", "-mode-only");
     // store empty line numbers from original content
     var emptyLineNumbers = _getEmptyLineNumbers(content);
-    function stripLinks(partialContent) {
-        function replacer(match) {
-            return match.includes(expectedSubstringToKeep)
-                ? match.replace(expectedSubstringToKeep, "")
-                : // only strip if includes the substring for other theme
-                    match.includes(expectedSubstringToStrip)
-                        ? ""
-                        : match.replace(expectedSubstringToKeep, "");
-        }
-        var transformed = partialContent
-            .replace(markdownInlineLinkRe, replacer)
-            .replace(markdownReferenceLinkRe, replacer)
-            .replace(htmlTagRe, replacer);
-        // call recursively until all the `gh-${theme}-mode-only` links
-        // are stripped. This is easier to maintain than writing more complex
-        // regexes to fulfill the matching multiple times in a line.
-        if (transformed.length !== partialContent.length) {
-            return stripLinks(transformed);
-        }
-        return transformed;
-    }
     // strip new generated empty lines
-    var lines = _splitlines(stripLinks(content)), newLines = [];
+    var lines = _splitlines(stripLinks(content, expectedSubstringToKeep, expectedSubstringToStrip)), newLines = [];
     for (var i = 0; i < lines.length; i++) {
         if (!emptyLineNumbers.includes(i) && // is not original empty line
             !lines[i].replace(emptyLineRe, "") // is a new empty line

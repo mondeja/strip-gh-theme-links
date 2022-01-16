@@ -34,6 +34,38 @@ function _getEmptyLineNumbers(content: string) {
     .filter((num) => num !== null);
 }
 
+export function stripLinks(
+  content: string,
+  expectedSubstringToKeep: string,
+  expectedSubstringToStrip: string
+): string {
+  function replacer(match: string): string {
+    return match.includes(expectedSubstringToKeep)
+      ? match.replace(expectedSubstringToKeep, "")
+      : // only strip if includes the substring for other theme
+      match.includes(expectedSubstringToStrip)
+      ? ""
+      : match.replace(expectedSubstringToKeep, "");
+  }
+
+  const transformed = content
+    .replace(markdownInlineLinkRe, replacer)
+    .replace(markdownReferenceLinkRe, replacer)
+    .replace(htmlTagRe, replacer);
+
+  // call recursively until all the `gh-${theme}-mode-only` links
+  // are stripped. This is easier to maintain than writing more complex
+  // regexes to fulfill the matching multiple times in a line.
+  if (transformed.length !== content.length) {
+    return stripLinks(
+      transformed,
+      expectedSubstringToKeep,
+      expectedSubstringToStrip
+    );
+  }
+  return transformed;
+}
+
 /**
  * @param content Content for which Github theme image links
  * will be stripped.
@@ -52,32 +84,10 @@ export default function stripGhThemeLinks(
   // store empty line numbers from original content
   const emptyLineNumbers = _getEmptyLineNumbers(content);
 
-  function stripLinks(partialContent: string): string {
-    function replacer(match: string): string {
-      return match.includes(expectedSubstringToKeep)
-        ? match.replace(expectedSubstringToKeep, "")
-        : // only strip if includes the substring for other theme
-        match.includes(expectedSubstringToStrip)
-        ? ""
-        : match.replace(expectedSubstringToKeep, "");
-    }
-
-    const transformed = partialContent
-      .replace(markdownInlineLinkRe, replacer)
-      .replace(markdownReferenceLinkRe, replacer)
-      .replace(htmlTagRe, replacer);
-
-    // call recursively until all the `gh-${theme}-mode-only` links
-    // are stripped. This is easier to maintain than writing more complex
-    // regexes to fulfill the matching multiple times in a line.
-    if (transformed.length !== partialContent.length) {
-      return stripLinks(transformed);
-    }
-    return transformed;
-  }
-
   // strip new generated empty lines
-  const lines = _splitlines(stripLinks(content)),
+  const lines = _splitlines(
+      stripLinks(content, expectedSubstringToKeep, expectedSubstringToStrip)
+    ),
     newLines: string[] = [];
   for (let i = 0; i < lines.length; i++) {
     if (
