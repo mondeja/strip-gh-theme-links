@@ -1,27 +1,31 @@
 {
   "name": "strip-gh-theme-links",
-  "version": "2.2.2",
+  "version": "3.0.0",
   "description": "Strip Github dark/light theme image links",
-  "main": "dist/cjs/index.js",
+  "main": "dist/cjs/wrapper.js",
   "module": "dist/esm/index.js",
-  "types": "./index.d.ts",
+  "types": "dist/index.d.ts",
   "bin": "cli.js",
   "files": [
     "dist/cjs",
     "dist/esm",
-    "index.d.ts"
+    "dist/index.d.ts"
   ],
   "scripts": {
     "lint": "eslint '*.{t,j}s' 'tests/**/*.ts'",
     "lint:fix": "npm run lint -- --fix",
-    "prebuild": "run-s lint:fix clean",
-    "build": "run-p build:cjs build:esm build:action",
+    "prebuild": "run-s lint:fix",
+    "build": "run-p build:cjs build:esm build:ts build:action",
     "build:action": "ncc build action/index.ts --minify --v8-cache -o dist/action",
-    "build:cjs": "tsc index.ts --module commonjs --outDir dist/cjs",
+    "build:cjs": "run-s build:cjs:index build:cjs:wrapper",
+    "build:cjs:index": "tsc index.ts --module commonjs --outDir dist/cjs",
+    "build:cjs:wrapper": "node scripts/build-cjs-wrapper.js",
     "build:esm": "tsc index.ts --module es2020 --outDir dist/esm",
-    "test": "uvu -r tsm tests",
-    "clean": "rimraf dist *.tgz",
-    "prepare": "is-ci || husky install"
+    "build:ts": "tsc index.ts --declaration --emitDeclarationOnly --outDir dist",
+    "test": "uvu -r tsm",
+    "prepare": "run-p setup:husky setup:si-readme",
+    "setup:husky": "is-ci || husky install",
+    "setup:si-readme": "sdown https://raw.githubusercontent.com/simple-icons/simple-icons/develop/README.md node_modules/simple-icons/README.md"
   },
   "license": "BSD-3-Clause",
   "author": {
@@ -34,25 +38,25 @@
     "fake-diff": "1.0.0"
   },
   "devDependencies": {
-    "@actions/core": "1.6.0",
+    "@actions/core": "1.8.0",
     "@types/fake-diff": "1.0.0",
     "@types/glob": "7.2.0",
-    "@types/node": "17.0.4",
-    "@typescript-eslint/eslint-plugin": "5.8.0",
-    "@typescript-eslint/parser": "5.8.0",
-    "@vercel/ncc": "0.33.1",
-    "eslint": "8.5.0",
-    "eslint-config-prettier": "8.3.0",
+    "@types/node": "17.0.31",
+    "@typescript-eslint/eslint-plugin": "5.22.0",
+    "@typescript-eslint/parser": "5.22.0",
+    "@vercel/ncc": "0.33.4",
+    "eslint": "8.15.0",
+    "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.0.0",
-    "glob": "7.2.0",
+    "glob": "8.0.1",
     "husky": "7.0.4",
     "is-ci": "3.0.1",
     "npm-run-all": "4.1.5",
-    "prettier": "2.5.1",
-    "rimraf": "3.0.2",
-    "simple-icons": "6.7.0",
+    "prettier": "2.6.2",
+    "sdown": "1.0.2",
+    "simple-icons": "6.20.0",
     "tsm": "2.2.1",
-    "typescript": "4.5.4",
-    "uvu": "0.5.2"
+    "typescript": "4.6.4",
+    "uvu": "0.5.3"
   }
 }

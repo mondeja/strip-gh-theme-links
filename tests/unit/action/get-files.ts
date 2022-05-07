@@ -10,7 +10,7 @@ const TMP_DIRNAME = "shgtla-get-files-as-globs";
 test("Get files from plain text", () => {
   const testdir = path.join(tmpdir(), TMP_DIRNAME);
   if (fs.existsSync(testdir)) {
-    fs.rmdirSync(testdir, { recursive: true });
+    fs.rmSync(testdir, { recursive: true });
   }
   fs.mkdirSync(testdir);
 
@@ -28,13 +28,13 @@ test("Get files from plain text", () => {
   );
   delete process.env["INPUT_FILES"];
 
-  fs.rmdirSync(testdir, { recursive: true });
+  fs.rmSync(testdir, { recursive: true });
 });
 
 test("Get files from globs", () => {
   const testdir = path.join(tmpdir(), TMP_DIRNAME);
   if (fs.existsSync(testdir)) {
-    fs.rmdirSync(testdir, { recursive: true });
+    fs.rmSync(testdir, { recursive: true });
   }
   fs.mkdirSync(testdir);
 
@@ -51,7 +51,7 @@ test("Get files from globs", () => {
   );
   delete process.env["INPUT_FILES"];
 
-  fs.rmdirSync(testdir, { recursive: true });
+  fs.rmSync(testdir, { recursive: true });
 });
 
 test("Unexistent files", () => {
