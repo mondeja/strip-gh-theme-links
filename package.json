@@ -38,25 +38,25 @@
     "fake-diff": "1.0.0"
   },
   "devDependencies": {
-    "@actions/core": "1.6.0",
+    "@actions/core": "1.8.0",
     "@types/fake-diff": "1.0.0",
     "@types/glob": "7.2.0",
-    "@types/node": "17.0.4",
-    "@typescript-eslint/eslint-plugin": "5.8.0",
-    "@typescript-eslint/parser": "5.8.0",
-    "@vercel/ncc": "0.33.1",
-    "eslint": "8.5.0",
-    "eslint-config-prettier": "8.3.0",
+    "@types/node": "17.0.31",
+    "@typescript-eslint/eslint-plugin": "5.22.0",
+    "@typescript-eslint/parser": "5.22.0",
+    "@vercel/ncc": "0.33.4",
+    "eslint": "8.15.0",
+    "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.0.0",
-    "glob": "7.2.0",
+    "glob": "8.0.1",
     "husky": "7.0.4",
     "is-ci": "3.0.1",
     "npm-run-all": "4.1.5",
-    "prettier": "2.5.1",
+    "prettier": "2.6.2",
     "sdown": "1.0.2",
-    "simple-icons": "6.7.0",
+    "simple-icons": "6.20.0",
     "tsm": "2.2.1",
-    "typescript": "4.5.4",
-    "uvu": "0.5.2"
+    "typescript": "4.6.4",
+    "uvu": "0.5.3"
   }
 }
