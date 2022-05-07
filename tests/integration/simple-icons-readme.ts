@@ -11,10 +11,11 @@ test("Simple Icons README strip", () => {
   );
   const siReadme = fs.readFileSync(siReadmeFilePath, "utf8");
 
-  const result = stripGhThemeLinks(siReadme, "light");
+  const result = stripGhThemeLinks(siReadme, "dark");
   assert.equal(result.split("\n").length, siReadme.split("\n").length);
   assert.not(result.includes("gh-light-mode-only"));
   assert.not(result.includes("gh-dark-mode-only"));
+  assert.ok(result.includes("assets/readme/simpleicons-white.svg"));
 });
 
 test.run();

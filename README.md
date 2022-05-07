@@ -73,9 +73,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Strip Github theme image links
-        uses: mondeja/strip-gh-theme-links@v2
+        uses: mondeja/strip-gh-theme-links@v3
         with:
           files: |
             README.md

@@ -14,11 +14,11 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use NodeJS v16
-        uses: actions/setup-node@v2.2.0
+        uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 18.x
       - name: Install
         run: npm i
       - name: Lint
@@ -29,11 +29,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
+        node-version: [14.x, 16.x, 18.x]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Use NodeJS v${{ matrix.node-version }}
-      uses: actions/setup-node@v2.2.0
+      uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
     - name: Install
@@ -45,7 +45,7 @@ jobs:
     name: Action test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: mondeja/strip-gh-theme-links@master
       with:
         files: README.md
@@ -63,7 +63,7 @@ jobs:
       - action-test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Get tag metadata
         id: tag
         run: |
@@ -95,9 +95,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Use NodeJS v16
-      uses: actions/setup-node@v2.2.0
+      uses: actions/setup-node@v3
       with:
         node-version: 16.x
     - name: Install dependencies
