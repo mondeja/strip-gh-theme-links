@@ -7,7 +7,9 @@
   "types": "dist/index.d.ts",
   "bin": "cli.js",
   "files": [
-    "dist"
+    "dist/cjs",
+    "dist/esm",
+    "dist/index.d.ts"
   ],
   "scripts": {
     "lint": "eslint '*.{t,j}s' 'tests/**/*.ts'",
