@@ -88,7 +88,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Strip Github theme image links
-        uses: mondeja/strip-gh-theme-links@v3
+        uses: mondeja/strip-gh-theme-links@v4
         with:
           files: |
             README.md

@@ -3,7 +3,7 @@ import * as assert from "uvu/assert";
 import { getKeep } from "../../../action/inputs";
 
 test("Get keep as default", () => {
-  assert.equal(getKeep(), "light");
+  assert.equal(getKeep(), undefined);
 });
 
 test("Get keep as valid", () => {

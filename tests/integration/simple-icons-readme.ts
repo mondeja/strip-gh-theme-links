@@ -13,8 +13,8 @@ test("Simple Icons README strip", () => {
 
   const result = stripGhThemeLinks(siReadme, "dark");
   assert.equal(result.split("\n").length, siReadme.split("\n").length);
-  assert.not(result.includes("gh-light-mode-only"));
-  assert.not(result.includes("gh-dark-mode-only"));
+  assert.not(result.includes("prefers-colors-scheme"));
+  assert.not(result.includes("source media="));
   assert.ok(result.includes("assets/readme/simpleicons-white.svg"));
 });
 

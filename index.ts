@@ -1,4 +1,4 @@
-import { parse as parseHTML } from "node-html-parser";
+import { parse } from "node-html-parser";
 
 const _normalizeHTMLSchemeAttr = (html: string, scheme: string): string => {
   return html.replace(
@@ -39,7 +39,7 @@ export default function stripGhThemeLinks(
 
         let src, pictureBlock;
         if (keep) {
-          pictureBlock = parseHTML(
+          pictureBlock = parse(
             _normalizeHTMLSchemeAttr(_currentPictureBlockContent, keep)
           );
           src = pictureBlock.querySelector(
@@ -53,7 +53,7 @@ export default function stripGhThemeLinks(
             src = src.getAttribute("srcset");
           }
         } else {
-          pictureBlock = parseHTML(_currentPictureBlockContent);
+          pictureBlock = parse(_currentPictureBlockContent);
           src = pictureBlock.querySelector("img");
           if (!src) {
             // is not a theme image
@@ -82,13 +82,3 @@ export default function stripGhThemeLinks(
   }
   return newContent.join("");
 }
-
-const content = `
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/dark">
-  <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/light">
-  <img alt="Alt text" title="Title text" src="https://user-images.githubusercontent.com/default" width=70>
-</picture>
-`;
-
-console.log(stripGhThemeLinks(content, "dark"));

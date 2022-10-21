@@ -1,4 +1,6 @@
-import { parse as parseHTML } from "node-html-parser";
+"use strict";
+exports.__esModule = true;
+var node_html_parser_1 = require("node-html-parser");
 var _normalizeHTMLSchemeAttr = function (html, scheme) {
     return html.replace(new RegExp("\\(prefers-color-scheme:\\s*".concat(scheme, "\\)")), "(prefers-color-scheme: ".concat(scheme, ")"));
 };
@@ -8,7 +10,7 @@ var _normalizeHTMLSchemeAttr = function (html, scheme) {
  * @param keep Theme variant links to keep in the content.
  * @returns Content with Github theme links stripped.
  */
-export default function stripGhThemeLinks(content, keep) {
+function stripGhThemeLinks(content, keep) {
     var newContent = [], _currentPictureBlock = [];
     var _insidePictureBlock = false;
     for (var i = 0; i < content.length; i++) {
@@ -29,7 +31,7 @@ export default function stripGhThemeLinks(content, keep) {
                 var _currentPictureBlockContent = _currentPictureBlock.join("");
                 var src = void 0, pictureBlock = void 0;
                 if (keep) {
-                    pictureBlock = parseHTML(_normalizeHTMLSchemeAttr(_currentPictureBlockContent, keep));
+                    pictureBlock = (0, node_html_parser_1.parse)(_normalizeHTMLSchemeAttr(_currentPictureBlockContent, keep));
                     src = pictureBlock.querySelector("source[media=\"(prefers-color-scheme: ".concat(keep, ")\"]"));
                     if (!src) {
                         // is not a theme image
@@ -41,7 +43,7 @@ export default function stripGhThemeLinks(content, keep) {
                     }
                 }
                 else {
-                    pictureBlock = parseHTML(_currentPictureBlockContent);
+                    pictureBlock = (0, node_html_parser_1.parse)(_currentPictureBlockContent);
                     src = pictureBlock.querySelector("img");
                     if (!src) {
                         // is not a theme image
@@ -53,7 +55,6 @@ export default function stripGhThemeLinks(content, keep) {
                     }
                 }
                 var img = pictureBlock.querySelector("img");
-                var imgAlt = img ? img.getAttribute("alt") : "";
                 newContent.push("<img src=\"".concat(src, "\""));
                 if (img) {
                     for (var _i = 0, _a = img.rawAttrs.split(" "); _i < _a.length; _i++) {
@@ -73,5 +74,4 @@ export default function stripGhThemeLinks(content, keep) {
     }
     return newContent.join("");
 }
-var content = "\n<picture>\n  <source media=\"(prefers-color-scheme: dark)\" srcset=\"https://user-images.githubusercontent.com/dark\">\n  <source media=\"(prefers-color-scheme: light)\" srcset=\"https://user-images.githubusercontent.com/light\">\n  <img alt=\"Alt text\" title=\"Title text\" src=\"https://user-images.githubusercontent.com/default\" width=70>\n</picture>\n";
-console.log(stripGhThemeLinks(content, "dark"));
+exports["default"] = stripGhThemeLinks;

@@ -94,7 +94,7 @@ if (require.main === module) {
     process.argv.slice(sliceN)
   );
 
-  const stripGhThemeLinks = require("./dist/cjs/wrapper");
+  const stripGhThemeLinks = require("./dist/wrapper");
   const content = fs.readFileSync(file, "utf-8");
   const strippedContent = stripGhThemeLinks(content, keep);
   if (strict && content.length === strippedContent.length) {

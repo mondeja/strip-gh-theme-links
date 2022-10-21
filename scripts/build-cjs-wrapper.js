@@ -1,4 +1,4 @@
 require("fs").writeFileSync(
-  'dist/cjs/wrapper.js',
+  'dist/wrapper.js',
   'module.exports = require("./index.js").default;'
 )
