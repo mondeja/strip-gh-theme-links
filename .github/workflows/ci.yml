@@ -10,12 +10,31 @@ on:
   workflow_dispatch:
 
 jobs:
+  test-action:
+    name: Test action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+      - name: Download simple-icons README
+        run: |
+          npm i -g sdown
+          sdown https://raw.githubusercontent.com/mondeja/simple-icons/readme-picture-blocks/README.md si-readme.md
+      - uses: mondeja/strip-gh-theme-links@master
+        with:
+          files: si-readme.md
+          keep: light
+          strict: true
+
   lint:
     name: Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Use NodeJS v16
+      - name: Use NodeJS
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
@@ -47,6 +66,7 @@ jobs:
     needs:
       - test
       - lint
+      - test-action
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
