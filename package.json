@@ -4,7 +4,6 @@
   "description": "Strip Github dark/light theme image links",
   "main": "dist/cjs/wrapper.js",
   "module": "dist/esm/index.js",
-  "types": "dist/index.d.ts",
   "bin": "cli.js",
   "files": [
     "dist/cjs",
@@ -35,7 +34,8 @@
   "contributors": [],
   "repository": "https://github.com/mondeja/strip-gh-theme-links-action",
   "dependencies": {
-    "fake-diff": "1.0.0"
+    "fake-diff": "1.0.0",
+    "node-html-parser": "6.1.1"
   },
   "devDependencies": {
     "@actions/core": "1.8.0",

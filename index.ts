@@ -1,70 +1,11 @@
-const urlRe =
-  "[\\w\\-./?:_%=&]+(?:#gh-(?:(?:light)|(?:dark))-mode-only)(?:[\\w\\-./?:_%=&]+)?";
+import { parse as parseHTML } from "node-html-parser";
 
-const markdownInlineLinkRe = new RegExp(
-  "(?:!?\\[(?:[^[\\]]|\\[[^\\]]*\\])*\\])\\(" +
-    urlRe +
-    "(?:\\s[\"\\']\\w+[\"\\'])?\\)",
-  "g"
-);
-
-const markdownReferenceLinkRe = new RegExp(
-  "\\s{0,3}\\[[^\\]]+]:\\s" + urlRe + "(?:\\s[\"']\\w+[\"'])?",
-  "g"
-);
-
-const htmlTagRe = new RegExp(
-  "<[a-zA-Z][^>]+=[\"']?" + urlRe + "[\"']?[^>]*\\/?>",
-  "g"
-);
-
-const newLineRe = new RegExp("(\\r\\n|\\n|\\r)");
-const emptyLineRe = new RegExp("^(\\r\\n|\\n|\\r)$");
-const splitLinesRe = new RegExp("^.*((\\r\\n|\\n|\\r)|$)", "gm");
-
-function _splitlines(content: string): string[] {
-  return content.match(splitLinesRe) as Array<string>;
-}
-
-function _getEmptyLineNumbers(content: string) {
-  return _splitlines(content)
-    .map(function (line: string, i: number): null | number {
-      return line.replace(newLineRe, "") ? null : i;
-    })
-    .filter((num) => num !== null);
-}
-
-export function stripLinks(
-  content: string,
-  expectedSubstringToKeep: string,
-  expectedSubstringToStrip: string
-): string {
-  function replacer(match: string): string {
-    return match.includes(expectedSubstringToKeep)
-      ? match.replace(expectedSubstringToKeep, "")
-      : // only strip if includes the substring for other theme
-      match.includes(expectedSubstringToStrip)
-      ? ""
-      : match.replace(expectedSubstringToKeep, "");
-  }
-
-  const transformed = content
-    .replace(markdownInlineLinkRe, replacer)
-    .replace(markdownReferenceLinkRe, replacer)
-    .replace(htmlTagRe, replacer);
-
-  // call recursively until all the `gh-${theme}-mode-only` links
-  // are stripped. This is easier to maintain than writing more complex
-  // regexes to fulfill the matching multiple times in a line.
-  if (transformed.length !== content.length) {
-    return stripLinks(
-      transformed,
-      expectedSubstringToKeep,
-      expectedSubstringToStrip
-    );
-  }
-  return transformed;
-}
+const _normalizeHTMLSchemeAttr = (html: string, scheme: string): string => {
+  return html.replace(
+    new RegExp(`\\(prefers-color-scheme:\\s*${scheme}\\)`),
+    `(prefers-color-scheme: ${scheme})`
+  );
+};
 
 /**
  * @param content Content for which Github theme image links
@@ -74,32 +15,77 @@ export function stripLinks(
  */
 export default function stripGhThemeLinks(
   content: string,
-  keep: "light" | "dark"
+  keep?: "light" | "dark"
 ): string {
-  const expectedSubstringToKeep = `#gh-${keep}-mode-only`,
-    expectedSubstringToStrip = `#gh-${
-      keep === "dark" ? "light" : "dark"
-    }-mode-only`;
+  const newContent = [],
+    _currentPictureBlock = [];
+  let _insidePictureBlock = false;
 
-  // store empty line numbers from original content
-  const emptyLineNumbers = _getEmptyLineNumbers(content);
-
-  // strip new generated empty lines
-  const lines = _splitlines(
-      stripLinks(content, expectedSubstringToKeep, expectedSubstringToStrip)
-    ),
-    newLines: string[] = [];
-  for (let i = 0; i < lines.length; i++) {
-    if (
-      !emptyLineNumbers.includes(i) && // is not original empty line
-      !lines[i].replace(emptyLineRe, "") // is a new empty line
-    ) {
-      if (!emptyLineNumbers.includes(i - 1)) {
-        newLines[i - 1] = newLines[i - 1].replace(newLineRe, "");
+  for (let i = 0; i < content.length; i++) {
+    if (!_insidePictureBlock) {
+      if (content.substring(i, i + 9) === "<picture>") {
+        _insidePictureBlock = true;
+        _currentPictureBlock.push("<picture>");
+        i += 8;
+      } else {
+        newContent.push(content[i]);
       }
     } else {
-      newLines.push(lines[i]);
+      if (content.substring(i, i + 10) === "</picture>") {
+        _insidePictureBlock = false;
+        _currentPictureBlock.push("</picture>");
+
+        const _currentPictureBlockContent = _currentPictureBlock.join("");
+
+        let src, pictureBlock;
+        if (keep) {
+          pictureBlock = parseHTML(
+            _normalizeHTMLSchemeAttr(_currentPictureBlockContent, keep)
+          );
+          src = pictureBlock.querySelector(
+            `source[media="(prefers-color-scheme: ${keep})"]`
+          );
+          if (!src) {
+            // is not a theme image
+            newContent.push(_currentPictureBlockContent);
+            continue;
+          } else {
+            src = src.getAttribute("srcset");
+          }
+        } else {
+          pictureBlock = parseHTML(_currentPictureBlockContent);
+          src = pictureBlock.querySelector("img");
+          if (!src) {
+            // is not a theme image
+            newContent.push(_currentPictureBlockContent);
+            continue;
+          } else {
+            src = src.getAttribute("src");
+          }
+        }
+        const img = pictureBlock.querySelector("img");
+        const imgAlt = img ? img.getAttribute("alt") : "";
+
+        newContent.push(`[${imgAlt}](${src}`);
+        if (img && img.hasAttribute("title")) {
+          newContent.push(` "${img.getAttribute("title")}"`);
+        }
+        newContent.push(")");
+        i += 9;
+      } else {
+        _currentPictureBlock.push(content[i]);
+      }
     }
   }
-  return newLines.join("");
+  return newContent.join("");
 }
+
+const content = `
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/dark">
+  <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/light">
+  <img alt="Alt text" title="Title text" src="https://user-images.githubusercontent.com/default">
+</picture>
+`
+
+console.log(stripGhThemeLinks(content))

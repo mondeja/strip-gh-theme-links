@@ -36,7 +36,7 @@ function processArgs(args) {
     help();
   }
 
-  let keep = "light",
+  let keep = undefined,
     file,
     _insideKeep = false,
     diff = false,
@@ -56,7 +56,7 @@ function processArgs(args) {
     } else if (["-k", "--keep"].includes(arg)) {
       _insideKeep = true;
     } else if (_insideKeep) {
-      if (!["light", "dark"].includes(arg)) {
+      if (![undefined, "light", "dark"].includes(arg)) {
         console.error(
           `ERROR: -k/--keep argument value must be either 'light' or 'dark'`
         );
