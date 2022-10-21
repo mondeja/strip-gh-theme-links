@@ -109,8 +109,7 @@ jobs:
 - <a name="input-files" href="#input-files">#</a> **files** ⇒
 (required) ⇒ Path to files or globs to strip, separated by newlines.
 - <a name="input-keep" href="#input-keep">#</a> **keep**
-(default: `'light'`) ⇒ Theme variant links to keep in the content
-of the files.
+⇒ Theme variant links to keep in the content of the files.
 - <a name="input-strict" href="#input-strict">#</a> **strict**
 (default: `false`) ⇒ Treat warnings as errors and exit with code 1.
 Warnings are raised when a file specified in
