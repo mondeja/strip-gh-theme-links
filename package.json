@@ -3,12 +3,13 @@
   "version": "4.0.0",
   "description": "Strip Github dark/light theme image links",
   "main": "dist/wrapper.js",
-  "module": "dist/index.js",
+  "browser": "dist/wrapper.js",
+  "module": "dist/wrapper.js",
   "types": "dist/index.d.ts",
   "bin": "cli.js",
   "files": [
     "dist/index.js",
-    "dist/index.js"
+    "dist/wrapper.js"
   ],
   "scripts": {
     "lint": "eslint '*.{t,j}s' 'tests/**/*.ts'",
