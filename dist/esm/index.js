@@ -54,11 +54,16 @@ export default function stripGhThemeLinks(content, keep) {
                 }
                 var img = pictureBlock.querySelector("img");
                 var imgAlt = img ? img.getAttribute("alt") : "";
-                newContent.push("[".concat(imgAlt, "](").concat(src));
-                if (img && img.hasAttribute("title")) {
-                    newContent.push(" \"".concat(img.getAttribute("title"), "\""));
+                newContent.push("<img src=\"".concat(src, "\""));
+                if (img) {
+                    for (var _i = 0, _a = img.rawAttrs.split(" "); _i < _a.length; _i++) {
+                        var attr = _a[_i];
+                        if (!attr.startsWith("src=")) {
+                            newContent.push(" ".concat(attr));
+                        }
+                    }
                 }
-                newContent.push(")");
+                newContent.push(">");
                 i += 9;
             }
             else {
@@ -68,3 +73,5 @@ export default function stripGhThemeLinks(content, keep) {
     }
     return newContent.join("");
 }
+var content = "\n<picture>\n  <source media=\"(prefers-color-scheme: dark)\" srcset=\"https://user-images.githubusercontent.com/dark\">\n  <source media=\"(prefers-color-scheme: light)\" srcset=\"https://user-images.githubusercontent.com/light\">\n  <img alt=\"Alt text\" title=\"Title text\" src=\"https://user-images.githubusercontent.com/default\" width=70>\n</picture>\n";
+console.log(stripGhThemeLinks(content, "dark"));

@@ -64,13 +64,16 @@ export default function stripGhThemeLinks(
           }
         }
         const img = pictureBlock.querySelector("img");
-        const imgAlt = img ? img.getAttribute("alt") : "";
 
-        newContent.push(`[${imgAlt}](${src}`);
-        if (img && img.hasAttribute("title")) {
-          newContent.push(` "${img.getAttribute("title")}"`);
+        newContent.push(`<img src="${src}"`);
+        if (img) {
+          for (const attr of img.rawAttrs.split(" ")) {
+            if (!attr.startsWith("src=")) {
+              newContent.push(` ${attr}`);
+            }
+          }
         }
-        newContent.push(")");
+        newContent.push(">");
         i += 9;
       } else {
         _currentPictureBlock.push(content[i]);
@@ -84,8 +87,8 @@ const content = `
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/dark">
   <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/light">
-  <img alt="Alt text" title="Title text" src="https://user-images.githubusercontent.com/default">
+  <img alt="Alt text" title="Title text" src="https://user-images.githubusercontent.com/default" width=70>
 </picture>
-`
+`;
 
-console.log(stripGhThemeLinks(content))
+console.log(stripGhThemeLinks(content, "dark"));

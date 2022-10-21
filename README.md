@@ -36,23 +36,23 @@ const content = `
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/dark">
   <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/light">
-  <img alt="Alt text" title="Title text" src="https://user-images.githubusercontent.com/default">
+  <img alt="Alt text" title="Title text" src="https://user-images.githubusercontent.com/default" width=70>
 </picture>
-`
+`;
 
 console.log(stripGhThemeLinks(content, 'light'))
 /* OUTPUT:
-[Alt text](https://user-images.githubusercontent.com/light "Title text")
+<img src="https://user-images.githubusercontent.com/light" alt="Alt text" title="Title text" width=70>
 */
 
 console.log(stripGhThemeLinks(content, 'dark'))
 /* OUTPUT:
-[Alt text](https://user-images.githubusercontent.com/dark "Title text")
+<img src="https://user-images.githubusercontent.com/dark" alt="Alt text" title="Title text" width=70>
 */
 
 console.log(stripGhThemeLinks(content))
 /* OUTPUT:
-[Alt text](https://user-images.githubusercontent.com/default "Title text")
+<img src="https://user-images.githubusercontent.com/default" alt="Alt text" title="Title text" width=70>
 */
 ```
 
