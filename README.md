@@ -114,7 +114,7 @@ of the files.
 - <a name="input-strict" href="#input-strict">#</a> **strict**
 (default: `false`) ⇒ Treat warnings as errors and exit with code 1.
 Warnings are raised when a file specified in
-[`files` input](#input-files) is not found or when any image links
+[`files` input](#input-files) is not found or when no image links
 are stripped from a file.
 
 [modes-docs]: https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#specifying-the-theme-an-image-is-shown-to
