@@ -15,7 +15,7 @@
     "build": "run-s build:ts build:cjs build:action",
     "build:action": "ncc build action/index.ts --minify --v8-cache -o dist/action",
     "build:cjs": "node scripts/build-cjs-wrapper.js",
-    "build:ts": "tsc",
+    "build:ts": "tsc -p . --declaration",
     "test": "uvu -r tsm",
     "prepare": "run-p setup:husky setup:si-readme",
     "setup:husky": "is-ci || husky install",
