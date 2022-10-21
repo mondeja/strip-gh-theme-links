@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as core from "@actions/core";
 import * as glob from "glob";
 
-type keepType = "light" | "dark";
+type keepType = "light" | "dark" | undefined;
 
 export function getFiles(strict?: boolean | undefined): Array<string> {
   let warned = false;
@@ -44,8 +44,8 @@ export function getFiles(strict?: boolean | undefined): Array<string> {
 export function getKeep(): keepType {
   let keep = core.getInput("keep") as keepType;
   if (!keep) {
-    keep = 'light'
-  } else if (!["light", "dark"].includes(keep)) {
+    keep = undefined
+  } else if (![undefined, "light", "dark"].includes(keep)) {
     throw new Error(
       `'keep' input must be either 'light' or 'dark' ('${keep}' passed)`
     );

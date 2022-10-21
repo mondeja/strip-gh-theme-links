@@ -6,7 +6,7 @@ inputs:
     description: Glob of files from which to strip image links.
     required: true
   keep:
-    description: Type of links to keep in the files. Either 'light' or 'dark'. As default 'light'.
+    description: Type of links to keep in the files. Either 'light' or 'dark'.
     required: false
   strict:
     description: Treat warnings as errors and exit with code 1.
@@ -16,4 +16,4 @@ runs:
   main: dist/action/index.js
 branding:
   icon: type
-  color: black
+  color: gray-dark

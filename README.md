@@ -1,11 +1,10 @@
 # strip-gh-theme-links
 
 In Github you can specify the theme an image is displayed to
-by appending `#gh-light-mode-only` or `#gh-dark-mode-only` to
-the end of an image URL when writing Markdown. See [Specifying
-the theme an image is shown to][modes-docs].
+by using `<picture>` HTML blocks in Markdown.See [Specifying the
+theme an image is shown to][modes-docs].
 
-However, other platforms currently do not support this syntax
+However, other platforms currently do not support this tag
 and will display both versions of the image. So you might want
 to delete one of the images before uploading your documents to
 other platforms like, for example, Packagist (PHP) or PyPI
@@ -15,6 +14,10 @@ These npm package, CLI and Github Action are for you. They strip
 all the image theme links about one of the Github theme versions
 from your files. Perfect for running it before your packaging step
 in your release pipelines.
+
+> NOTE: The latest version supporting the deprecated `#gh-dark-mode-only`
+and `#gh-light-mode-only` hashes in inline images is
+[v3](https://github.com/mondeja/strip-gh-theme-links/releases/tag/v3).
 
 ## Install
 
@@ -30,16 +33,26 @@ npm install strip-gh-theme-links
 import stripGhThemeLinks from "strip-gh-theme-links";
 
 const content = `
-<p align="center>
-  <img src="https://raw.githubusercontent.com/user/repo/assets/readme/logo-black.svg#gh-light-mode-only" alt="logo"> <img src="https://raw.githubusercontent.com/user/repo/assets/readme/logo-white.svg#gh-dark-mode-only" alt="logo">
-</p>
-`
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/dark">
+  <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/light">
+  <img alt="Alt text" title="Title text" src="https://user-images.githubusercontent.com/default" width=70>
+</picture>
+`;
 
 console.log(stripGhThemeLinks(content, 'light'))
 /* OUTPUT:
-<p align="center>
-  <img src="https://raw.githubusercontent.com/user/repo/assets/readme/logo-black.svg" alt="logo">
-</p>
+<img src="https://user-images.githubusercontent.com/light" alt="Alt text" title="Title text" width=70>
+*/
+
+console.log(stripGhThemeLinks(content, 'dark'))
+/* OUTPUT:
+<img src="https://user-images.githubusercontent.com/dark" alt="Alt text" title="Title text" width=70>
+*/
+
+console.log(stripGhThemeLinks(content))
+/* OUTPUT:
+<img src="https://user-images.githubusercontent.com/default" alt="Alt text" title="Title text" width=70>
 */
 ```
 
@@ -47,13 +60,13 @@ console.log(stripGhThemeLinks(content, 'light'))
 
 <a name="stripGhThemeLinks" href="#stripGhThemeLinks">#</a>
 **stripGhThemeLinks**(*content: string*,
-*keep: 'light' | 'dark'*): *string*
+*keep?: 'light' | 'dark'*): *string*
 
 - <a name="stripGhThemeLinks-content" href="#stripGhThemeLinks-content">#</a>
 *content* ⇒ Content for which the Github theme image links will be
 stripped.
 - <a name="stripGhThemeLinks-keep" href="#stripGhThemeLinks-keep">#</a>
-*keep (default: `'light'`)* ⇒ Theme variant links to keep in the content.
+*keep (default: `'light'`)* ⇒ Theme variant links to keep in the content. If not specified the `src` attribute of the `<img>` tag will be kept.
 
 ### CLI
 
@@ -75,7 +88,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Strip Github theme image links
-        uses: mondeja/strip-gh-theme-links@v3
+        uses: mondeja/strip-gh-theme-links@v4
         with:
           files: |
             README.md
