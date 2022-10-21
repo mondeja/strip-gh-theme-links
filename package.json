@@ -16,7 +16,7 @@
     "prebuild": "run-s lint:fix clean",
     "clean": "rimraf dist",
     "build": "run-s build:ts build:cjs build:action",
-    "build:action": "ncc build action/index.ts --minify --v8-cache -o dist/action",
+    "build:action": "ncc build action/index.ts --v8-cache -o dist/action",
     "build:cjs": "node scripts/build-cjs-wrapper.js",
     "build:ts": "tsc -p . --declaration",
     "test": "uvu -r tsm",
