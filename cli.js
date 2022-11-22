@@ -1,11 +1,21 @@
 #!/usr/bin/env node
-/* eslint @typescript-eslint/no-var-requires: 0 */
 
-const fs = require("fs");
-const packageJson = require("./package.json");
-const fakeDiff = require("fake-diff");
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import process from "process";
+
+import fakeDiff from "fake-diff";
+import stripGhThemeLinks from "./index.js";
+
+const scriptPath = fileURLToPath(import.meta.url);
+
+function getPackageJson() {
+  return JSON.parse(fs.readFileSync("package.json", "utf-8"));
+}
 
 function help() {
+  const packageJson = getPackageJson();
   console.error(
     `
   ${packageJson.description} from a file.
@@ -27,6 +37,7 @@ function help() {
 }
 
 function version() {
+  const packageJson = getPackageJson();
   console.error(packageJson.version);
   process.exit(1);
 }
@@ -82,23 +93,22 @@ function processArgs(args) {
   return { file, keep, diff, write, strict };
 }
 
-if (require.main === module) {
-  let sliceN = 1;
+async function main() {
+  let sliceN = 2;
   if (
-    process.argv.indexOf(module.filename) > -1 ||
-    require("path").basename(process.argv[1]) === "strip-gh-theme-links"
+    process.argv.indexOf(path.basename(scriptPath)) > -1 ||
+    path.basename(process.argv[1]) === "strip-gh-theme-links"
   ) {
-    sliceN = 2;
+    sliceN = 3;
   }
   const { file, keep, diff, write, strict } = processArgs(
     process.argv.slice(sliceN)
   );
 
-  const stripGhThemeLinks = require("./dist/wrapper");
   const content = fs.readFileSync(file, "utf-8");
-  const strippedContent = stripGhThemeLinks(content, keep);
+  const strippedContent = await stripGhThemeLinks(content, keep);
   if (strict && content.length === strippedContent.length) {
-    console.error(`ERROR: Any content stripped from file '${file}'`);
+    console.warn(`WARNING: Any content stripped from file '${file}'`);
     process.exit(1);
   }
 
@@ -109,4 +119,10 @@ if (require.main === module) {
   } else {
     console.log(strippedContent);
   }
+}
+
+if (process.argv[1] === scriptPath) {
+  (async () => {
+    await main();
+  })();
 }

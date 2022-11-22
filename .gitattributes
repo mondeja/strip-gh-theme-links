@@ -1,3 +1,2 @@
 * text=auto
-dist/**/*.js -diff
-package-lock.json -diff
+action/dist/* -diff

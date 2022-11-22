@@ -1,11 +1,11 @@
-import * as fs from "fs";
-import * as core from "@actions/core";
+import fs from "fs";
+import core from "@actions/core";
 import fakeDiff from "fake-diff";
 
-import stripGhThemeLinks from "..";
-import { getFiles, getKeep, getStrict } from './inputs';
+import stripGhThemeLinks from "../index.js";
+import { getFiles, getKeep, getStrict } from "./inputs";
 
-export function run() {
+export async function run() {
   let warned = false;
 
   // Parse inputs
@@ -22,14 +22,14 @@ export function run() {
   );
 
   for (const file of files) {
-    const content: string = fs.readFileSync(file, "utf-8");
-    const strippedContent = stripGhThemeLinks(content, keep);
+    const content = fs.readFileSync(file, "utf-8");
+    const strippedContent = await stripGhThemeLinks(content, keep);
 
     if (content.length !== strippedContent.length) {
       core.info(
-        `---------- Stripped ${strippedTheme} theme image links from`
-        + ` '${file}' file ----------\n\n`
-        + `${fakeDiff(content, strippedContent)}\n----------`
+        `---------- Stripped ${strippedTheme} theme image links from` +
+          ` '${file}' file ----------\n\n` +
+          `${fakeDiff(content, strippedContent)}\n----------`
       );
       fs.writeFileSync(file, strippedContent);
     } else {
@@ -41,8 +41,10 @@ export function run() {
   }
 
   if (strict && warned) {
-    process.exit(1)
+    process.exit(1);
   }
 }
 
-run()
+(async () => {
+  await run();
+})();

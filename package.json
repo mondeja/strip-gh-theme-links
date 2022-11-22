@@ -2,61 +2,45 @@
   "name": "strip-gh-theme-links",
   "version": "4.0.0",
   "description": "Strip Github dark/light theme image links",
-  "main": "dist/wrapper.js",
-  "browser": "dist/wrapper.js",
-  "module": "dist/wrapper.js",
-  "types": "dist/index.d.ts",
+  "type": "module",
+  "main": "index.js",
   "bin": "cli.js",
-  "files": [
-    "dist/index.js",
-    "dist/wrapper.js"
-  ],
-  "scripts": {
-    "lint": "eslint '*.{t,j}s' 'tests/**/*.ts'",
-    "lint:fix": "npm run lint -- --fix",
-    "prebuild": "run-s lint:fix clean",
-    "clean": "rimraf dist",
-    "build": "run-s build:ts build:cjs build:action",
-    "build:action": "ncc build action/index.ts --v8-cache -o dist/action",
-    "build:cjs": "node scripts/build-cjs-wrapper.js",
-    "build:ts": "tsc -p . --declaration",
-    "test": "uvu -r tsm",
-    "prepare": "run-p setup:husky setup:si-readme",
-    "setup:husky": "is-ci || husky install",
-    "setup:si-readme": "sdown https://raw.githubusercontent.com/mondeja/simple-icons/readme-picture-blocks/README.md node_modules/simple-icons/README.md"
-  },
   "license": "BSD-3-Clause",
   "author": {
     "name": "Álvaro Mondéjar Rubio",
     "email": "mondejar1994@gmail.com"
   },
   "contributors": [],
-  "repository": "https://github.com/mondeja/strip-gh-theme-links-action",
+  "repository": "https://github.com/mondeja/strip-gh-theme-links",
   "dependencies": {
+    "cheerio": "1.0.0-rc.12",
     "fake-diff": "1.0.0",
-    "node-html-parser": "6.1.1"
+    "remark": "14.0.2",
+    "remark-gfm": "3.0.1"
   },
   "devDependencies": {
-    "@actions/core": "^1.10.0",
-    "@types/fake-diff": "1.0.0",
-    "@types/glob": "7.2.0",
-    "@types/node": "17.0.31",
-    "@typescript-eslint/eslint-plugin": "5.22.0",
-    "@typescript-eslint/parser": "5.22.0",
-    "@vercel/ncc": "0.33.4",
-    "eslint": "8.15.0",
+    "@actions/core": "1.10.0",
+    "@vercel/ncc": "0.34.0",
+    "eslint": "8.28.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.0.0",
-    "glob": "8.0.1",
-    "husky": "7.0.4",
+    "glob": "8.0.3",
+    "husky": "8.0.2",
     "is-ci": "3.0.1",
     "npm-run-all": "4.1.5",
-    "prettier": "2.6.2",
-    "rimraf": "3.0.2",
+    "prettier": "2.7.1",
     "sdown": "1.0.2",
-    "simple-icons": "6.20.0",
-    "tsm": "2.2.1",
-    "typescript": "4.6.4",
-    "uvu": "0.5.3"
+    "uvu": "0.5.6"
+  },
+  "scripts": {
+    "format": "prettier -w .",
+    "lint:fix": "eslint --fix .",
+    "lint": "run-s format lint:fix",
+    "build:action": "ncc build action/index.js --v8-cache -o action/dist/",
+    "build": "run-s build:action",
+    "test": "uvu",
+    "prepare": "run-p setup:husky setup:si-readme",
+    "setup:husky": "is-ci || husky install",
+    "setup:si-readme": "sdown https://raw.githubusercontent.com/mondeja/simple-icons/readme-picture-blocks/README.md si-readme.md"
   }
 }

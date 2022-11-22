@@ -2,3 +2,5 @@ node_modules/
 dev.*
 *.tgz
 package-lock.json
+/si-readme.md
+/prueba.js

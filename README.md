@@ -16,8 +16,8 @@ from your files. Perfect for running it before your packaging step
 in your release pipelines.
 
 > NOTE: The latest version supporting the deprecated `#gh-dark-mode-only`
-and `#gh-light-mode-only` hashes in inline images is
-[v3](https://github.com/mondeja/strip-gh-theme-links/releases/tag/v3).
+> and `#gh-light-mode-only` hashes in inline images is
+> [v3](https://github.com/mondeja/strip-gh-theme-links/releases/tag/v3).
 
 ## Install
 
@@ -40,17 +40,17 @@ const content = `
 </picture>
 `;
 
-console.log(stripGhThemeLinks(content, 'light'))
+console.log(await stripGhThemeLinks(content, "light"));
 /* OUTPUT:
 <img src="https://user-images.githubusercontent.com/light" alt="Alt text" title="Title text" width=70>
 */
 
-console.log(stripGhThemeLinks(content, 'dark'))
+console.log(await stripGhThemeLinks(content, "dark"));
 /* OUTPUT:
 <img src="https://user-images.githubusercontent.com/dark" alt="Alt text" title="Title text" width=70>
 */
 
-console.log(stripGhThemeLinks(content))
+console.log(await stripGhThemeLinks(content));
 /* OUTPUT:
 <img src="https://user-images.githubusercontent.com/default" alt="Alt text" title="Title text" width=70>
 */
@@ -59,14 +59,14 @@ console.log(stripGhThemeLinks(content))
 #### Reference
 
 <a name="stripGhThemeLinks" href="#stripGhThemeLinks">#</a>
-**stripGhThemeLinks**(*content: string*,
-*keep?: 'light' | 'dark'*): *string*
+**stripGhThemeLinks**(_content: string_,
+_keep?: 'light' | 'dark'_): _Promise\<string\>_
 
 - <a name="stripGhThemeLinks-content" href="#stripGhThemeLinks-content">#</a>
-*content* ⇒ Content for which the Github theme image links will be
-stripped.
+  _content_ ⇒ Content for which the Github theme image links will be
+  stripped.
 - <a name="stripGhThemeLinks-keep" href="#stripGhThemeLinks-keep">#</a>
-*keep (default: `'light'`)* ⇒ Theme variant links to keep in the content. If not specified the `src` attribute of the `<img>` tag will be kept.
+  _keep_ ⇒ Theme variant links to keep in the content. If not specified the `src` attribute of the `<img>` tag will be kept.
 
 ### CLI
 
@@ -107,14 +107,14 @@ jobs:
 #### Inputs
 
 - <a name="input-files" href="#input-files">#</a> **files** ⇒
-(required) ⇒ Path to files or globs to strip, separated by newlines.
+  (required) ⇒ Path to files or globs to strip, separated by newlines.
 - <a name="input-keep" href="#input-keep">#</a> **keep**
-⇒ Theme variant links to keep in the content of the files.
+  ⇒ Theme variant links to keep in the content of the files.
 - <a name="input-strict" href="#input-strict">#</a> **strict**
-(default: `false`) ⇒ Treat warnings as errors and exit with code 1.
-Warnings are raised when a file specified in
-[`files` input](#input-files) is not found or when no image links
-are stripped from a file.
+  (default: `false`) ⇒ Treat warnings as errors and exit with code 1.
+  Warnings are raised when a file specified in
+  [`files` input](#input-files) is not found or when no image links
+  are stripped from a file.
 
 [modes-docs]: https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#specifying-the-theme-an-image-is-shown-to
 [new-issue]: https://github.com/mondeja/strip-gh-theme-links/issues/new
