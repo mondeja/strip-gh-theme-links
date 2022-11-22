@@ -55,7 +55,7 @@ const createHtmlBlockVisitor = (keep) => {
       html = node.value;
     }
 
-    const regex = /<picture>(?!<\/picture>).+/g;
+    const regex = /<picture>(?!<\/picture>).+/gs;
     const matches = html.match(regex);
     if (!matches) {
       return;

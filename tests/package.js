@@ -2,8 +2,7 @@ import { test } from "uvu";
 import * as assert from "uvu/assert";
 import stripGhThemeLinks from "../index.js";
 
-test("Strip GH theme links", async () => {
-  const content = `Foo
+const CONTENT = `Foo
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/dark">
@@ -14,33 +13,41 @@ test("Strip GH theme links", async () => {
 Bar
 `;
 
+test("Strip GH theme links (keep light)", async () => {
   // keep light
   assert.equal(
-    await stripGhThemeLinks(content, "light"),
+    await stripGhThemeLinks(CONTENT, "light"),
     `Foo
 
-<img src="https://user-images.githubusercontent.com/light" alt="Alt text" title="Title text" width=70>
+<img alt="Alt text" title="Title text" src="https://user-images.githubusercontent.com/light" width="70">
 
 Bar
 `
   );
+
+});
+
+test("Strip GH theme links (keep dark)", async () => {
   // keep dark
   assert.equal(
-    await stripGhThemeLinks(content, "dark"),
+    await stripGhThemeLinks(CONTENT, "dark"),
     `Foo
 
-<img src="https://user-images.githubusercontent.com/dark" alt="Alt text" title="Title text" width=70>
+<img alt="Alt text" title="Title text" src="https://user-images.githubusercontent.com/dark" width="70">
 
 Bar
 `
   );
+});
+
+test("Strip GH theme links (keep default)", async () => {
 
   // keep default
   assert.equal(
-    await stripGhThemeLinks(content),
+    await stripGhThemeLinks(CONTENT),
     `Foo
 
-<img src="https://user-images.githubusercontent.com/default" alt="Alt text" title="Title text" width=70>
+<img alt="Alt text" title="Title text" src="https://user-images.githubusercontent.com/default" width="70">
 
 Bar
 `
@@ -56,7 +63,13 @@ test("HTML blocks with more than a picture tag", async () => {
 </p>
 `;
 
-  assert.equal(await stripGhThemeLinks(content), ``);
+  assert.equal(await stripGhThemeLinks(content), `<p align="center">
+  <img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/simpleicons.svg" alt="Simple Icons" width="70">
+  <h3 align="center">Simple Icons</h3>
+  <p align="center">
+  Over 2300 Free SVG icons for popular brands. See them all on one page at <a href="https://simpleicons.org">SimpleIcons.org</a>. Contributions, corrections & requests can be made on GitHub.</p>
+</p>
+`);
 });
 
 test.run();
