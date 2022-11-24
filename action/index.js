@@ -3,7 +3,7 @@ import core from "@actions/core";
 import fakeDiff from "fake-diff";
 
 import stripGhThemeLinks from "../index.js";
-import { getFiles, getKeep, getStrict } from "./inputs";
+import { getFiles, getKeep, getStrict } from "./inputs.js";
 
 export async function run() {
   let warned = false;
