@@ -1,7 +1,7 @@
 # strip-gh-theme-links
 
 In Github you can specify the theme an image is displayed to
-by using `<picture>` HTML blocks in Markdown.See [Specifying the
+by using `<picture>` HTML blocks in Markdown. See [Specifying the
 theme an image is shown to][modes-docs].
 
 However, other platforms currently do not support this tag
