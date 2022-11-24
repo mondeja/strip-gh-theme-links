@@ -13,7 +13,7 @@ inputs:
     required: false
 runs:
   using: node16
-  main: dist/action/index.js
+  main: action/dist/index.js
 branding:
   icon: type
   color: gray-dark
