@@ -23,7 +23,7 @@ jobs:
         run: |
           npm i -g sdown
           sdown https://raw.githubusercontent.com/mondeja/simple-icons/readme-picture-blocks/README.md si-readme.md
-      - uses: mondeja/strip-gh-theme-links@test-action
+      - uses: mondeja/strip-gh-theme-links@master
         with:
           files: si-readme.md
           keep: light
