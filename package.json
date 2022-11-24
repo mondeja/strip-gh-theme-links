@@ -6,6 +6,10 @@
   "main": "index.js",
   "bin": "cli.js",
   "license": "BSD-3-Clause",
+  "files": [
+    "index.js",
+    "transformer.js"
+  ],
   "author": {
     "name": "Álvaro Mondéjar Rubio",
     "email": "mondejar1994@gmail.com"
