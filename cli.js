@@ -94,12 +94,12 @@ function processArgs(args) {
 }
 
 async function main() {
-  let sliceN = 2;
+  let sliceN = 1;
   if (
     process.argv.indexOf(path.basename(scriptPath)) > -1 ||
     path.basename(process.argv[1]) === "strip-gh-theme-links"
   ) {
-    sliceN = 3;
+    sliceN = 2;
   }
   const { file, keep, diff, write, strict } = processArgs(
     process.argv.slice(sliceN)
@@ -121,7 +121,10 @@ async function main() {
   }
 }
 
-if (process.argv[1] === scriptPath) {
+if (
+  process.argv[1] === scriptPath ||
+  path.basename(process.argv[1]) === "strip-gh-theme-links"
+) {
   (async () => {
     await main();
   })();

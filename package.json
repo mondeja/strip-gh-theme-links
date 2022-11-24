@@ -1,6 +1,6 @@
 {
   "name": "strip-gh-theme-links",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Strip Github dark/light theme image links",
   "type": "module",
   "main": "index.js",
