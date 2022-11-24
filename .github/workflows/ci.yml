@@ -28,6 +28,8 @@ jobs:
           files: si-readme.md
           keep: light
           strict: true
+      - name: Show transformation
+        run: cat si-readme.md
 
   lint:
     name: Lint
