@@ -66,7 +66,7 @@ _keep?: 'light' | 'dark'_): _Promise\<string\>_
   _content_ ⇒ Content for which the Github theme image links will be
   stripped.
 - <a name="stripGhThemeLinks-keep" href="#stripGhThemeLinks-keep">#</a>
-  _keep_ ⇒ Theme variant links to keep in the content. If not specified the `src` attribute of the `<img>` tag will be kept.
+  _keep_ ⇒ Theme variant links to keep in the content. If not specified the `src` attribute of the `<img>` tag will be used.
 
 ### CLI
 
@@ -106,7 +106,7 @@ jobs:
 
 #### Inputs
 
-- <a name="input-files" href="#input-files">#</a> **files** ⇒
+- <a name="input-files" href="#input-files">#</a> **files**
   (required) ⇒ Path to files or globs to strip, separated by newlines.
 - <a name="input-keep" href="#input-keep">#</a> **keep**
   ⇒ Theme variant links to keep in the content of the files.
