@@ -24,7 +24,6 @@ test("Strip GH theme links (keep light)", async () => {
 Bar
 `
   );
-
 });
 
 test("Strip GH theme links (keep dark)", async () => {
@@ -41,7 +40,6 @@ Bar
 });
 
 test("Strip GH theme links (keep default)", async () => {
-
   // keep default
   assert.equal(
     await stripGhThemeLinks(CONTENT),
@@ -63,13 +61,16 @@ test("HTML blocks with more than a picture tag", async () => {
 </p>
 `;
 
-  assert.equal(await stripGhThemeLinks(content), `<p align="center">
+  assert.equal(
+    await stripGhThemeLinks(content),
+    `<p align="center">
   <img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/simpleicons.svg" alt="Simple Icons" width="70">
   <h3 align="center">Simple Icons</h3>
   <p align="center">
   Over 2300 Free SVG icons for popular brands. See them all on one page at <a href="https://simpleicons.org">SimpleIcons.org</a>. Contributions, corrections & requests can be made on GitHub.</p>
 </p>
-`);
+`
+  );
 });
 
 test.run();
