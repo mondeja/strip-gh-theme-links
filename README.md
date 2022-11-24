@@ -42,17 +42,17 @@ const content = `
 
 console.log(await stripGhThemeLinks(content, "light"));
 /* OUTPUT:
-<img src="https://user-images.githubusercontent.com/light" alt="Alt text" title="Title text" width=70>
+<img src="https://user-images.githubusercontent.com/light" alt="Alt text" title="Title text" width="70">
 */
 
 console.log(await stripGhThemeLinks(content, "dark"));
 /* OUTPUT:
-<img src="https://user-images.githubusercontent.com/dark" alt="Alt text" title="Title text" width=70>
+<img src="https://user-images.githubusercontent.com/dark" alt="Alt text" title="Title text" width="70">
 */
 
 console.log(await stripGhThemeLinks(content));
 /* OUTPUT:
-<img src="https://user-images.githubusercontent.com/default" alt="Alt text" title="Title text" width=70>
+<img src="https://user-images.githubusercontent.com/default" alt="Alt text" title="Title text" width="70">
 */
 ```
 
