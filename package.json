@@ -44,6 +44,6 @@
     "test": "uvu",
     "prepare": "run-p setup:husky setup:si-readme",
     "setup:husky": "is-ci || husky install",
-    "setup:si-readme": "sdown https://raw.githubusercontent.com/mondeja/simple-icons/readme-picture-blocks/README.md si-readme.md"
+    "setup:si-readme": "sdown https://raw.githubusercontent.com/simple-icons/simple-icons/develop/README.md si-readme.md"
   }
 }
