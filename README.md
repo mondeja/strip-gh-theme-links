@@ -15,7 +15,8 @@ all the image theme links about one of the Github theme versions
 from your files. Perfect for running it before your packaging step
 in your release pipelines.
 
-> NOTE: The latest version supporting the deprecated `#gh-dark-mode-only`
+> **Note**\
+> The latest version supporting the deprecated `#gh-dark-mode-only`
 > and `#gh-light-mode-only` hashes in inline images is
 > [v3](https://github.com/mondeja/strip-gh-theme-links/releases/tag/v3).
 
@@ -95,12 +96,11 @@ jobs:
             CONTRIBUTING.md
 ```
 
-> :warning: It is recomended to run the [CLI](#cli) with
+> **Warning**\
+> It is recomended to run the [CLI](#cli) with
 > `strip-gh-theme-links --diff file.md` to check that your files are
 > correctly stripped before configure this action in your release
 > pipeline.
->
-> If you experiments errors, please [report them][new-issue].
 
 ### Reference
 
@@ -117,4 +117,3 @@ jobs:
   are stripped from a file.
 
 [modes-docs]: https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#specifying-the-theme-an-image-is-shown-to
-[new-issue]: https://github.com/mondeja/strip-gh-theme-links/issues/new
