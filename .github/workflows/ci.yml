@@ -10,27 +10,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  test-action:
-    name: Test action
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use NodeJS
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-      - name: Download simple-icons README
-        run: |
-          npm i -g sdown
-          sdown https://raw.githubusercontent.com/mondeja/simple-icons/readme-picture-blocks/README.md si-readme.md
-      - uses: mondeja/strip-gh-theme-links@master
-        with:
-          files: si-readme.md
-          keep: light
-          strict: true
-      - name: Show transformation
-        run: cat si-readme.md
-
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -50,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [16.x, 18.x, 20.x]
     steps:
       - uses: actions/checkout@v3
       - name: Use NodeJS v${{ matrix.node-version }}
@@ -68,7 +47,6 @@ jobs:
     needs:
       - test
       - lint
-      - test-action
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -76,7 +54,7 @@ jobs:
         id: tag
         run: |
           TAG_TITLE=${GITHUB_REF#refs/*/}
-          echo ::set-output name=title::$TAG_TITLE
+          echo "title=$TAG_TITLE" >> $GITHUB_OUTPUT
           git -c protocol.version=2 fetch --prune --progress \
             --no-recurse-submodules origin \
             +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
@@ -84,7 +62,7 @@ jobs:
           TAG_BODY="${TAG_BODY//'%'/'%25'}"
           TAG_BODY="${TAG_BODY//$'\n'/'%0A'}"
           TAG_BODY="${TAG_BODY//$'\r'/'%0D'}"
-          echo ::set-output name=body::$TAG_BODY
+          echo "body=$TAG_BODY" >> $GITHUB_OUTPUT
       - name: Create Release
         uses: actions/create-release@v1.1.4
         id: create-release
