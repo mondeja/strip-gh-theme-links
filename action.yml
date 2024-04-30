@@ -12,7 +12,7 @@ inputs:
     description: Treat warnings as errors and exit with code 1.
     required: false
 runs:
-  using: node16
+  using: node20
   main: action/dist/index.js
 branding:
   icon: type

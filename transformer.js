@@ -1,10 +1,10 @@
-import { visit } from "unist-util-visit";
-import { load } from "cheerio";
+import {load} from 'cheerio';
+import {visit} from 'unist-util-visit';
 
-const _normalizeHTMLSchemeAttr = (html, scheme) => {
+const _normalizeHTMLSchemeAttribute = (html, scheme) => {
   return html.replace(
     new RegExp(`\\(prefers-color-scheme:\\s*${scheme}\\)`),
-    `(prefers-color-scheme: ${scheme})`
+    `(prefers-color-scheme: ${scheme})`,
   );
 };
 
@@ -13,32 +13,32 @@ const _normalizeHeadingInlineHtml = (ast) => {
     return;
   }
 
-  const currPicture = {
+  const currentPicture = {
     startIndex: null,
     endIndex: null,
-    value: "",
+    value: '',
   };
 
-  for (let child of ast.children) {
-    if (child.type === "html") {
-      if (child.value === "<picture>") {
-        currPicture.value = child.value;
-        currPicture.startIndex = ast.children.indexOf(child);
-      } else if (child.value === "</picture>") {
-        currPicture.endIndex = ast.children.indexOf(child);
-        currPicture.value += child.value;
+  for (const child of ast.children) {
+    if (child.type === 'html') {
+      if (child.value === '<picture>') {
+        currentPicture.value = child.value;
+        currentPicture.startIndex = ast.children.indexOf(child);
+      } else if (child.value === '</picture>') {
+        currentPicture.endIndex = ast.children.indexOf(child);
+        currentPicture.value += child.value;
         ast.children = [
-          ...ast.children.slice(0, currPicture.startIndex),
+          ...ast.children.slice(0, currentPicture.startIndex),
           {
-            type: "html",
-            value: currPicture.value,
+            type: 'html',
+            value: currentPicture.value,
           },
-          ...ast.children.slice(currPicture.endIndex + 1),
+          ...ast.children.slice(currentPicture.endIndex + 1),
         ];
-        currPicture.value = "";
-        currPicture.startIndex = null;
-      } else if (currPicture.value) {
-        currPicture.value += child.value;
+        currentPicture.value = '';
+        currentPicture.startIndex = null;
+      } else if (currentPicture.value) {
+        currentPicture.value += child.value;
       }
     } else if (child.children) {
       _normalizeHeadingInlineHtml(child);
@@ -49,11 +49,7 @@ const _normalizeHeadingInlineHtml = (ast) => {
 const createHtmlBlockVisitor = (keep) => {
   return (node) => {
     let html;
-    if (keep) {
-      html = _normalizeHTMLSchemeAttr(node.value, keep);
-    } else {
-      html = node.value;
-    }
+    html = keep ? _normalizeHTMLSchemeAttribute(node.value, keep) : node.value;
 
     const regex = /<picture.*?>(.*?)<*.picture>/gs;
     const matches = html.match(regex);
@@ -61,38 +57,40 @@ const createHtmlBlockVisitor = (keep) => {
       return;
     }
 
-    for (let match of matches) {
+    for (const match of matches) {
       const $ = load(match, null, false);
 
-      let $img, src;
+      let $img;
+      let source;
       if (keep) {
-        src = $(`source[media="(prefers-color-scheme: ${keep})"]`).attr(
-          "srcset"
+        source = $(`source[media="(prefers-color-scheme: ${keep})"]`).attr(
+          'srcset',
         );
-        if (!src) {
-          // not a theme image
+        if (!source) {
+          // Not a theme image
           continue;
         }
+
         $img = $(`img`);
         if (!$img) {
-          // not a theme image
+          // Not a theme image
           continue;
         }
       } else {
-        $img = $("img");
+        $img = $('img');
         if (!$img) {
-          // not a theme image
+          // Not a theme image
           continue;
         }
 
-        src = $img.attr("src");
-        if (!src) {
-          // not a theme image
+        source = $img.attr('src');
+        if (!source) {
+          // Not a theme image
           continue;
         }
       }
 
-      $img.attr("src", src);
+      $img.attr('src', source);
 
       html = html.replace(match, $img.toString());
     }
@@ -101,7 +99,7 @@ const createHtmlBlockVisitor = (keep) => {
   };
 };
 
-function createTransformer({ keep }) {
+function createTransformer({keep}) {
   const visitHtmlBlock = createHtmlBlockVisitor(keep);
 
   function transformer(ast) {
@@ -109,9 +107,10 @@ function createTransformer({ keep }) {
     visit(ast, visitor);
 
     function visitor(node) {
-      if (node.type === "html") {
+      if (node.type === 'html') {
         visitHtmlBlock(node);
       }
+
       return node;
     }
   }
