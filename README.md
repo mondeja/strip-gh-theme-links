@@ -22,7 +22,7 @@ in your release pipelines.
 
 ## Install
 
-```bash
+```sh
 npm install strip-gh-theme-links
 ```
 
@@ -71,8 +71,8 @@ _keep?: 'light' | 'dark'_): _Promise\<string\>_
 
 ### CLI
 
-```bash
-$ strip-gh-theme-links --help
+```sh
+strip-gh-theme-links --help
 ```
 
 ### Github Action
@@ -87,9 +87,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Strip Github theme image links
-        uses: mondeja/strip-gh-theme-links@v4
+        uses: mondeja/strip-gh-theme-links@v5
         with:
           files: |
             README.md
@@ -102,9 +102,9 @@ jobs:
 > correctly stripped before configure this action in your release
 > pipeline.
 
-### Reference
+#### Reference
 
-#### Inputs
+##### Inputs
 
 - <a name="input-files" href="#input-files">#</a> **files**
   (required) ⇒ Path to files or globs to strip, separated by newlines.

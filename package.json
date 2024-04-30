@@ -1,6 +1,6 @@
 {
   "name": "strip-gh-theme-links",
-  "version": "4.0.1",
+  "version": "5.0.0",
   "description": "Strip Github dark/light theme image links",
   "type": "module",
   "main": "index.js",
@@ -8,7 +8,8 @@
   "license": "BSD-3-Clause",
   "files": [
     "index.js",
-    "transformer.js"
+    "transformer.js",
+    "cli.js"
   ],
   "author": {
     "name": "Álvaro Mondéjar Rubio",
@@ -19,31 +20,24 @@
   "dependencies": {
     "cheerio": "1.0.0-rc.12",
     "fake-diff": "1.0.0",
-    "remark": "14.0.2"
+    "remark": "15.0.1"
   },
   "devDependencies": {
-    "@actions/core": "1.10.0",
-    "@vercel/ncc": "0.34.0",
-    "eslint": "8.28.0",
-    "eslint-config-prettier": "8.5.0",
-    "eslint-plugin-prettier": "4.0.0",
-    "glob": "8.0.3",
-    "husky": "8.0.2",
-    "is-ci": "3.0.1",
-    "npm-run-all": "4.1.5",
-    "prettier": "2.7.1",
-    "sdown": "1.0.2",
-    "uvu": "0.5.6"
+    "@actions/core": "1.10.1",
+    "@vercel/ncc": "0.38.1",
+    "glob": "10.3.12",
+    "husky": "9.0.11",
+    "uvu": "0.5.6",
+    "xo": "0.58.0"
   },
   "scripts": {
-    "format": "prettier -w .",
-    "lint:fix": "eslint --fix .",
-    "lint": "run-s format lint:fix",
-    "build:action": "ncc build action/index.js --v8-cache -o action/dist/ --target es2020",
-    "build": "run-s build:action",
+    "prettier": "prettier --cache --ignore-unknown \"**/*.!(js|jsx|mjs|cjs|ts|tsx|mts|cts|svg)\"",
+    "format": "npm run prettier -- --write",
+    "xo:fix": "xo --fix",
+    "lint:fix": "npm run format && npm run xo:fix",
+    "lint": "npm run format && npm run lint:fix",
+    "build": "ncc build action/index.js --v8-cache -o action/dist/ --target es2020",
     "test": "uvu",
-    "prepare": "run-p setup:husky setup:si-readme",
-    "setup:husky": "is-ci || husky install",
-    "setup:si-readme": "sdown https://raw.githubusercontent.com/simple-icons/simple-icons/develop/README.md si-readme.md"
+    "prepare": "husky"
   }
 }

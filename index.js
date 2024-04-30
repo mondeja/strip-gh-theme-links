@@ -1,8 +1,8 @@
-import { remark } from "remark";
-import remarkStripGhThemeLinks from "./transformer.js";
+import {remark} from 'remark';
+import remarkStripGhThemeLinks from './transformer.js';
 
 /**
- * @typedef {"light" | "dark"} keepType
+ * @typedef {"light" | "dark" | undefined} keepType
  */
 
 /**
@@ -13,7 +13,7 @@ import remarkStripGhThemeLinks from "./transformer.js";
  */
 export default async function stripGhThemeLinks(content, keep) {
   const file = await remark()
-    .use(remarkStripGhThemeLinks, { keep })
+    .use(remarkStripGhThemeLinks, {keep})
     .process(content);
   return String(file);
 }

@@ -14,30 +14,44 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Use NodeJS
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: 22.x
       - name: Install
-        run: npm i
+        run: npm i --ignore-scripts --no-audit --no-fund
       - name: Lint
         run: npm run lint
+
+  build:
+    name: Test build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+      - name: Install
+        run: npm i --ignore-scripts --no-audit --no-fund
+      - name: Lint
+        run: npm run build
 
   test:
     name: Test
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x, 18.x, 20.x]
+        node-version: [16.x, 18.x, 20.x, 22.x]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Use NodeJS v${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install
-        run: npm i
+        run: npm i --ignore-scripts --no-audit --no-fund
       - name: Test
         run: npm test
 
@@ -49,7 +63,7 @@ jobs:
       - lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Get tag metadata
         id: tag
         run: |
@@ -63,17 +77,16 @@ jobs:
           TAG_BODY="${TAG_BODY//$'\n'/'%0A'}"
           TAG_BODY="${TAG_BODY//$'\r'/'%0D'}"
           echo "body=$TAG_BODY" >> $GITHUB_OUTPUT
-      - name: Create Release
-        uses: actions/create-release@v1.1.4
-        id: create-release
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.tag.outputs.title }}
-          release_name: ${{ steps.tag.outputs.title }}
+          name: ${{ steps.tag.outputs.title }}
           body: ${{ steps.tag.outputs.body }}
           draft: false
           prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   npm:
     needs: release
@@ -81,17 +94,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-      - name: Use NodeJS v16
-        uses: actions/setup-node@v3
+        uses: actions/checkout@v4
+      - name: Use NodeJS v20
+        uses: actions/setup-node@v4
         with:
-          node-version: 16.x
+          node-version: 20.x
       - name: Install dependencies
-        run: npm i
+        run: npm i --ignore-scripts --no-audit --no-fund
       - name: Sanity check
         run: |
           npm run lint
           npm test
+          npm run build
       - name: Deploy to NPM
         uses: JS-DevTools/npm-publish@v1.4.3
         with:
